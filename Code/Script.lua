@@ -37,9 +37,96 @@ local attack_configurations = {
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
     },
     {
+        -- Camp Grand Prix
+        name = "Camp Grand Prix",
+        source = "D10",
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    },
+    {
+        -- Camp La Barriere
+        name = "Camp La Barriere",
+        source = "G10",
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", "J11", "J12", "J13" },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    },
+    {
+        -- Camp Du Crocodile
+        name = "Camp Du Crocodile",
+        source = "H14",
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", "J11", "J12", "J13" },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    },
+    {
+        -- Camp Bien Chien
+        name = "Camp Bien Chien",
+        source = "F19",
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    },
+    {
+        -- Camp Chien Sauvage
+        name = "Camp Chien Sauvage",
+        source = "E16",
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    },
+    -- {
+    --     -- The Eagle's Nest
+    --     name = "The Eagle's Nest",
+    --     source = "A20",
+    --     targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+    --     squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+    --     endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    -- },
+    -- {
+    --     -- Fort Brigand
+    --     name = "Fort Brigand",
+    --     source = "K16",
+    --     targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", "J11", "J12", "J13" },
+    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+    --     squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+    --     endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    -- },
+    -- {
+    --     -- Fort L'Eau Bleu
+    --     name = "Fort L'Eau Bleu",
+    --     source = "H4",
+    --     targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+    --     squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+    --     endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+    -- },
+    {
         -- Savanna North and South Wilderness
         name = "Savanna",
         targets = { "B3", "B4", "B5", "C4", "C6", "D4", "D5", "E4", "E6", "E7", "E8", "F6", "F8", "G6", "G7", "H6", "I7", "I8" },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
+    },
+    {
+        -- Savanna North and South Wilderness
+        name = "Great Forest",
+        targets = { "B3", "B4", "B5", "C4", "C6", "D4", "D5", "E4", "E6", "E7", "E8", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "I11", "I12" },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
     },
@@ -47,17 +134,25 @@ local attack_configurations = {
 
 --- Converts a floor-calculated day number into a formatted date string.
 function GetDateStringFromDay(day)
+    if day < 0 then
+        return "<none>"
+    end
+
     -- Convert the day count back into a timestamp (seconds)
     local timestamp = (day * const.Scale.day)
-    
+
     -- Use the engine's helper to get the date table
     local t = GetTimeAsTable(timestamp)
 
-    local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }    
+    if not t then
+        return "<none>"
+    end
+
+    local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
     local day = t.day
     local month_str = months[t.month]
     local year = t.year
-    
+
     -- Return the formatted string
     return string.format("%d %s %d", day, month_str, year)
 end
@@ -154,6 +249,16 @@ function IsActive(config)
     end
 end
 
+-- Remove militia for debuggung
+function RemoveMilitiaDebug(sector_id)
+    local sector = gv_Sectors[sector_id]
+    local militia_squads = GetMilitiaSquads(sector)
+
+    for _, squad in ipairs(militia_squads) do
+        RemoveSquad(squad)
+    end
+end
+
 -- The Hourly Logic Hook
 function OnMsg.NewHour()
     local today = GetCurrentCampaignDay()
@@ -169,6 +274,11 @@ function OnMsg.NewHour()
             if config.source then
                 local source_sector = gv_Sectors[config.source]
                 can_attack = source_sector and source_sector.Side ~= "player1"
+
+                if not can_attack then
+                    RemoveMilitiaDebug(config.source)
+                    can_attack = true
+                end
             end
 
             print(string.format("[LCFYA]   » Can attack %s: %s", config.name, tostring(can_attack)))
@@ -292,7 +402,7 @@ function OnMsg.ApplyModOptions(id)
     if CurrentModOptions then
         local opt = CurrentModOptions['options_cooldown_lcfya']
         cooldown = tonumber(opt) or 1
-        
+
         local opt_wild = CurrentModOptions['options_cooldown_wild_lcfya']
         cooldown_wild = tonumber(opt_wild) or 2
 
