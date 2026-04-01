@@ -28,108 +28,204 @@ local rng_seed = "[LCFYA] "
 local attack_configurations = {
     {
         -- Camp Savane
-        name = "Camp Savane",
+        name = "Camp Savane (F7)",
         source = "F7",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        group = "F7",
+        targets = { "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "F7",
+            }),
+        },
     },
     {
         -- Camp Grand Prix
-        name = "Camp Grand Prix",
+        name = "Camp Grand Prix (D10)",
         source = "D10",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        group = "D10",
+        targets = { "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", "E8", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "D10",
+            }),
+        },
     },
     {
         -- Camp La Barriere
-        name = "Camp La Barriere",
+        name = "Camp La Barriere (G10)",
         source = "G10",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", "J11", "J12", "J13" },
+        group = "G10",
+        targets = { "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J9", "J10", "J11", "K11", "L7", "L10", "L11", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "G10",
+            }),
+        },
     },
     {
         -- Camp Du Crocodile
-        name = "Camp Du Crocodile",
+        name = "Camp Du Crocodile (H14)",
         source = "H14",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", "J11", "J12", "J13" },
+        group = "H14",
+        targets = { "G12", "G13", "G14", "G15", "H11", "H13", "H15", "H16", "I11", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "H14",
+            }),
+        },
     },
     {
         -- Camp Bien Chien
-        name = "Camp Bien Chien",
+        name = "Camp Bien Chien (F19)",
         source = "F19",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        group = "F19",
+        targets = { "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "F19",
+            }),
+        },
     },
     {
         -- Camp Chien Sauvage
-        name = "Camp Chien Sauvage",
+        name = "Camp Chien Sauvage (E16)",
         source = "E16",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        group = "E16",
+        targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "E16",
+            }),
+        },
     },
-    -- {
-    --     -- The Eagle's Nest
-    --     name = "The Eagle's Nest",
-    --     source = "A20",
-    --     targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
-    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-    --     squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-    --     endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
-    -- },
-    -- {
-    --     -- Fort Brigand
-    --     name = "Fort Brigand",
-    --     source = "K16",
-    --     targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", "J11", "J12", "J13" },
-    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-    --     squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-    --     endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
-    -- },
-    -- {
-    --     -- Fort L'Eau Bleu
-    --     name = "Fort L'Eau Bleu",
-    --     source = "H4",
-    --     targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
-    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-    --     squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-    --     endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
-    -- },
+    {
+        -- The Eagle's Nest
+        name = "The Eagle's Nest (A20)",
+        source = "A20",
+        group = "A20",
+        targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20", },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "A20",
+            }),
+        },
+    },
+    {
+        -- Fort Brigand
+        name = "Fort Brigand (K16)",
+        source = "K16",
+        group = "K16",
+        targets = {
+            "G12", "G13", "G14", "G15", "H11", "H13", "H15", "H16", "I11", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", -- Camp Du Crocodile
+            "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", -- Camp Bien Chien
+            "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", -- Camp Chien Sauvage
+        },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "K16",
+            }),
+            PlaceObj('QuestIsTCEState', {
+                Prop = "TCE_SwitchGuardpostAttackSquads",
+                QuestId = "04_Betrayal",
+                Value = "done",
+            }),
+            PlaceObj('QuestIsTCEState', {
+                Negate = true,
+                Prop = "TCE_FaucheuxDone",
+                QuestId = "05_TakeDownFaucheux",
+                Value = "done",
+            }),
+        },
+    },
+    {
+        -- Fort L'Eau Bleu
+        name = "Fort L'Eau Bleu (H4)",
+        source = "H4",
+        group = "H4",
+        targets = {
+            "H3", "I2", "I3", -- Ernie Island
+            "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", -- Camp Savane
+            "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", "E8", -- Camp Grand Prix
+            "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J9", "J10", "J11", "K11", "L7", "L10", "L11", -- Camp La Barriere
+        },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "H4",
+            }),
+            PlaceObj('QuestIsTCEState', {
+                Prop = "TCE_SwitchGuardpostAttackSquads",
+                QuestId = "04_Betrayal",
+                Value = "done",
+            }),
+            PlaceObj('QuestIsTCEState', {
+                Negate = true,
+                Prop = "TCE_CorazoneDone",
+                QuestId = "05_TakeDownCorazon",
+                Value = "done",
+            }),
+        },
+    },
     {
         -- Savanna North and South Wilderness
-        name = "Savanna",
+        name = "Savanna Wilderness",
+        group = "Savanna",
         targets = { "B3", "B4", "B5", "C4", "C6", "D4", "D5", "E4", "E6", "E7", "E8", "F6", "F8", "G6", "G7", "H6", "I7", "I8" },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
     },
-    {
-        -- Savanna North and South Wilderness
-        name = "Great Forest",
-        targets = { "B3", "B4", "B5", "C4", "C6", "D4", "D5", "E4", "E6", "E7", "E8", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "I11", "I12" },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
-    },
+    -- {
+    --     -- Savanna North and South Wilderness
+    --     name = "Great Forest Wilderness",
+    --     group = "Great Forest",
+    --     targets = {  },
+    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
+    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
+    -- },
 }
 
 --- Converts a floor-calculated day number into a formatted date string.
@@ -143,10 +239,6 @@ function GetDateStringFromDay(day)
 
     -- Use the engine's helper to get the date table
     local t = GetTimeAsTable(timestamp)
-
-    if not t then
-        return "<none>"
-    end
 
     local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
     local day = t.day
@@ -187,7 +279,7 @@ local function PickAttackSquad(config)
     print(string.format("[LCFYA]   » Picking attack squad for %s", config.name))
 
     local quest = QuestGetState("04_Betrayal")
-    local betray_happened = quest and quest.TCE_SpawnCaptureSquads == "done"
+    local betray_happened = quest and quest.TCE_SwitchGuardpostAttackSquads == "done"
 
     print(string.format("[LCFYA]     - Quest check - Betrayal occurred: %s", tostring(betray_happened)))
 
@@ -249,16 +341,6 @@ function IsActive(config)
     end
 end
 
--- Remove militia for debuggung
-function RemoveMilitiaDebug(sector_id)
-    local sector = gv_Sectors[sector_id]
-    local militia_squads = GetMilitiaSquads(sector)
-
-    for _, squad in ipairs(militia_squads) do
-        RemoveSquad(squad)
-    end
-end
-
 -- The Hourly Logic Hook
 function OnMsg.NewHour()
     local today = GetCurrentCampaignDay()
@@ -269,17 +351,7 @@ function OnMsg.NewHour()
         if IsActive(config) then
             print(string.format("[LCFYA] Checking configuration for %s", config.name))
 
-            local can_attack = true
-
-            if config.source then
-                local source_sector = gv_Sectors[config.source]
-                can_attack = source_sector and source_sector.Side ~= "player1"
-
-                if not can_attack then
-                    RemoveMilitiaDebug(config.source)
-                    can_attack = true
-                end
-            end
+            local can_attack = EvalConditionList(config.conditions)
 
             print(string.format("[LCFYA]   » Can attack %s: %s", config.name, tostring(can_attack)))
 
@@ -300,12 +372,12 @@ function OnMsg.NewHour()
                     print(string.format("[LCFYA]   » Valid target sector found: %s", valid_target))
 
                     -- Read the last timestamp from the persistent GameVar
-                    local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.name] or -1
+                    local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.group] or -1
 
                     -- Sanity check for timestamp in case a previous savegame leaked through
                     if last_attack_timestamp > today then
                         print(string.format("[LCFYA]   » [Warning] Invalid timestamp detected: %s (Today %s). Resetting.", GetDateStringFromDay(last_attack_timestamp), GetDateStringFromDay(today)))
-                        gv_LCFYA_LastAttackTimestamps[config.name] = -1
+                        gv_LCFYA_LastAttackTimestamps[config.group] = -1
                         last_attack_timestamp = -1
                     end
 
@@ -317,7 +389,7 @@ function OnMsg.NewHour()
 
                     if time_passed then
                         print("[LCFYA]   » Time check passed")
-                        local config_rng_seed = rng_seed .. config.name
+                        local config_rng_seed = rng_seed .. config.group
 
                         -- b) Probability check (Weighted hourly roll for daily probability)
                         local success = InteractionRand(10000, config_rng_seed) < GetHourlyThreshold(config)
@@ -336,10 +408,10 @@ function OnMsg.NewHour()
                             effect:__exec()
 
                             -- Update timestamp and shuffle for variety
-                            print(string.format("[LCFYA]   » Setting last attack for %s to %s", config.name, GetDateStringFromDay(today)))
-                            gv_LCFYA_LastAttackTimestamps[config.name] = today
+                            print(string.format("[LCFYA]   » Setting last attack for %s to %s", config.group, GetDateStringFromDay(today)))
+                            gv_LCFYA_LastAttackTimestamps[config.group] = today
 
-                            print(string.format("[LCFYA]   » Shuffling sector and squad tables for %s", config.name))
+                            print(string.format("[LCFYA]   » Shuffling sector and squad tables for %s", config.group))
 
                             table.shuffle(config.targets, config_rng_seed)
                             table.shuffle(config.endgame_targets, config_rng_seed)
@@ -423,11 +495,11 @@ function OnMsg.LoadSessionData()
 
     for _, config in ipairs(attack_configurations) do
         -- Sanity check for timestamp in case a previous savegame leaked through
-        local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.name] or -1
+        local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.group] or -1
 
         if last_attack_timestamp > today then
             print(string.format("[LCFYA]   » [Warning] Invalid timestamp detected: %d (Today %d). Resetting.", last_attack_timestamp, today))
-            gv_LCFYA_LastAttackTimestamps[config.name] = -1
+            gv_LCFYA_LastAttackTimestamps[config.group] = -1
         end
     end
 end
