@@ -364,7 +364,7 @@ function OnMsg.NewHour()
 
             local can_attack = EvalConditionList(config.conditions)
 
-            print(string.format("[LCFYA]   » Can attack %s: %s", config.name, tostring(can_attack)))
+            print(string.format("[LCFYA]   » Can attack: %s", tostring(can_attack)))
 
             if can_attack then
                 local valid_target = false
