@@ -1,0 +1,25 @@
+return PlaceObj('ModDef', {
+	'title', "The Legion comes for you (again)",
+	'description', "You wrote legion instead of légion and so your fate is sealed.",
+	'id', "cAPuUkg",
+	'author', "KeldorKatarn",
+	'version_minor', 1,
+	'version', 7,
+	'lua_revision', 233360,
+	'saved_with_revision', 366685,
+	'code', {
+		"Code/Script.lua",
+	},
+	'default_options', {
+		options_chance_lcfya = "20",
+		options_chance_wild_lcfya = "10",
+		options_cooldown_lcfya = "1",
+		options_cooldown_wild_lcfya = "2",
+	},
+	'saved', 1775015123,
+	'code_hash', 7178083441210696756,
+	'affected_resources', {},
+	'TagBalancing&Difficulty', true,
+	'TagEnemies', true,
+	'TagSatview&Operations', true,
+})
