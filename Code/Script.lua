@@ -169,11 +169,9 @@ local attack_configurations = {
                 QuestId = "04_Betrayal",
                 Value = "done",
             }),
-            PlaceObj('QuestIsTCEState', {
-                Negate = true,
-                Prop = "TCE_FaucheuxDone",
+            PlaceObj('QuestIsVariableBool', {
                 QuestId = "05_TakeDownFaucheux",
-                Value = "done",
+                Vars = set_neg("Completed"),
             }),
         },
     },
@@ -202,11 +200,9 @@ local attack_configurations = {
                 QuestId = "04_Betrayal",
                 Value = "done",
             }),
-            PlaceObj('QuestIsTCEState', {
-                Negate = true,
-                Prop = "TCE_CorazoneDone",
+            PlaceObj('QuestIsVariableBool', {
                 QuestId = "05_TakeDownCorazon",
-                Value = "done",
+                Vars = set_neg("Completed"),
             }),
         },
     },
@@ -341,11 +337,26 @@ function IsActive(config)
     end
 end
 
+-- Debug world state
+function DumpQuestVariables()
+    print("[LCFYA]   » Checking quest status")
+    
+    local guard_post_attack_squads_switched = EvalConditionList({ PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }), })
+    local faucheux_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = neg("Completed"), }) })
+    local corazon_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = neg("Completed"), }) })
+
+    print(string.format("[LCFYA]     - Guard post switch done: %s", tostring(guard_post_attack_squads_switched)))
+    print(string.format("[LCFYA]     - TakeDownFaucheux completed: %s", tostring(faucheux_taken_down)))
+    print(string.format("[LCFYA]     - TakeDownCorazon completed: %s", tostring(corazon_taken_down)))
+end
+
 -- The Hourly Logic Hook
 function OnMsg.NewHour()
     local today = GetCurrentCampaignDay()
 
     print(string.format("[LCFYA] Hourly check for attacks: %s - %02d:00", GetDateStringFromDay(today), ((Game.CampaignTime % const.Scale.day) / const.Scale.h)))
+
+    DumpQuestVariables()
 
     for _, config in ipairs(attack_configurations) do
         if IsActive(config) then
