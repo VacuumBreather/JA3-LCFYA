@@ -31,11 +31,11 @@ local attack_configurations = {
         name = "Camp Savane (F7)",
         source = "F7",
         group = "F7",
-        targets = { "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8", },
+        targets = { "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -49,10 +49,10 @@ local attack_configurations = {
         source = "D10",
         group = "D10",
         targets = { "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", "E8", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
+        squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -65,11 +65,11 @@ local attack_configurations = {
         name = "Camp La Barriere (G10)",
         source = "G10",
         group = "G10",
-        targets = { "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J9", "J10", "J11", "K11", "L7", "L10", "L11", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
+        targets = { "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11", },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Ordnance_Easy", "LegionAttackers_Shock_Easy", },
+        squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Ordnance_Hard", "LegionAttackers_Shock_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -83,10 +83,10 @@ local attack_configurations = {
         source = "H14",
         group = "H14",
         targets = { "G12", "G13", "G14", "G15", "H11", "H13", "H15", "H16", "I11", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Shock_Easy", },
+        squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Shock_Hard", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
+        endgame_squads_strong = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -100,10 +100,10 @@ local attack_configurations = {
         source = "F19",
         group = "F19",
         targets = { "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
+        squads_strong = { "LegionAttackers_Shock_Hard", "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
+        endgame_squads_strong = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -117,10 +117,10 @@ local attack_configurations = {
         source = "E16",
         group = "E16",
         targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Ordnance_Easy", },
+        squads_strong = { "LegionAttackers_Shock_Hard", "LegionAttackers_Ordnance_Hard", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
+        endgame_squads_strong = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -134,10 +134,8 @@ local attack_configurations = {
         source = "A20",
         group = "A20",
         targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", },
+        squads_strong = { "LegionAttackers_Ordnance_Hard", "LegionAttackers_Marksmen_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -155,10 +153,8 @@ local attack_configurations = {
             "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", -- Camp Bien Chien
             "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", -- Camp Chien Sauvage
         },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
+        squads_strong = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
@@ -186,10 +182,8 @@ local attack_configurations = {
             "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", "E8", -- Camp Grand Prix
             "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J9", "J10", "J11", "K11", "L7", "L10", "L11", -- Camp La Barriere
         },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_SpecOps_Hard", },
+        squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
         conditions = {
             PlaceObj('SectorCheckOwner', {
                 Negate = true,
