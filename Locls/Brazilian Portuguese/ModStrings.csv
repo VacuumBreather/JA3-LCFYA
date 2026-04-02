@@ -1,0 +1,9 @@
+id,text
+548200000001,Matilha de hienas
+548200000002,Chance diária de ataque ao posto avançado (%)
+548200000003,O padrão é 20
+548200000004,Dias entre ataques (por posto avançado)
+548200000005,"1 significa que um ataque é possível todos os dias, 2 significa uma vez a cada 2 dias, etc."
+548200000006,Chance diária de ataque na selva (%)
+548200000007,O padrão é 10
+548200000008,Dias entre ataques na selva (por região)

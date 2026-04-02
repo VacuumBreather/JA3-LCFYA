@@ -1,0 +1,9 @@
+id,text
+548200000001,Hyena Pack
+548200000002,Daily chance of outpost attack (%)
+548200000003,Default is 20
+548200000004,Days between attacks (per outpost)
+548200000005,"1 means an attack is possible every day, 2 means once every 2 days, etc."
+548200000006,Daily chance of wilderness attack (%)
+548200000007,Default is 10
+548200000008,Days between wilderness attacks (per region)

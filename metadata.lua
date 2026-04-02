@@ -4,11 +4,53 @@ return PlaceObj('ModDef', {
 	'id', "cAPuUkg",
 	'author', "KeldorKatarn",
 	'version_minor', 1,
-	'version', 7,
+	'version', 10,
 	'lua_revision', 233360,
 	'saved_with_revision', 366685,
 	'code', {
 		"Code/Script.lua",
+	},
+	'loctables', {
+		{
+			filename = "Mod/cAPuUkg/Locls/English/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/German/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Brazilian Portuguese/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/French/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Indonesian/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Polish/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Russian/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Simplified Chinese/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Spanish/ModStrings.csv",
+			language = "Any",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Traditional Chinese/ModStrings.csv",
+			language = "Any",
+		},
 	},
 	'default_options', {
 		options_chance_lcfya = "20",
@@ -16,8 +58,8 @@ return PlaceObj('ModDef', {
 		options_cooldown_lcfya = "1",
 		options_cooldown_wild_lcfya = "2",
 	},
-	'saved', 1775015123,
-	'code_hash', 7178083441210696756,
+	'saved', 1775103183,
+	'code_hash', 5917993344282128444,
 	'affected_resources', {},
 	'TagBalancing&Difficulty', true,
 	'TagEnemies', true,
