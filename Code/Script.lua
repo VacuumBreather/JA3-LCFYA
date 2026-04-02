@@ -89,28 +89,52 @@ local function NotOwned(sector_id)
     return PlaceObj('SectorCheckOwner', { Negate = true, sector_id = sector_id })
 end
 
--- Helper to check if a quest is completed.
--- Returns a QuestIsVariableBool object checking for the 'Completed' variable.
+-- Helper to check if a specific boolean variable is set to true for a quest.
+-- Returns a QuestIsVariableBool object.
+local function IsTrue(quest_id, quest_bool_variable)
+    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set(quest_bool_variable), })
+end
+
+-- Helper to check if a specific boolean variable is set to false (negated) for a quest.
+-- Returns a QuestIsVariableBool object.
+local function IsFalse(quest_id, quest_bool_variable)
+    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set_neg(quest_bool_variable), })
+end
+
+-- Helper to check if a quest's 'Completed' variable is true.
+-- Returns a QuestIsVariableBool object.
 local function IsCompleted(quest_id)
-    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Completed"), })
+    return IsTrue(quest_id, "Completed")
 end
 
--- Helper to check if a quest is NOT yet completed.
--- Returns a QuestIsVariableBool object checking that the 'Completed' variable is false.
+-- Helper to check if a quest's 'Completed' variable is false (not yet completed).
+-- Returns a QuestIsVariableBool object.
 local function IsNotCompleted(quest_id)
-    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set_neg("Completed") })
+    return IsFalse(quest_id, "Completed")
 end
 
--- Helper to check if a quest has failed.
--- Returns a QuestIsVariableBool object checking for the 'Failed' variable.
+-- Helper to check if a quest's 'Failed' variable is true.
+-- Returns a QuestIsVariableBool object.
 local function IsFailed(quest_id)
-    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Failed"), })
+    return IsTrue(quest_id, "Failed")
+end
+
+-- Helper to check if a quest has been given to the player.
+-- Returns a QuestIsVariableBool object.
+local function IsGiven(quest_id)
+    return IsTrue(quest_id, "Given")
+end
+
+-- Combines multiple conditions into a single logical "OR" check.
+-- Returns a CheckOR object where if any condition is met, the whole object evaluates to true.
+local function AnyOf(...)
+    return PlaceObj('CheckOR', { Conditions = { ... }, })
 end
 
 -- Helper to check if a quest is either completed or has failed.
 -- Returns a CheckOR object containing IsCompleted and IsFailed conditions.
 local function IsCompletedOrFailed(quest_id)
-    return PlaceObj('CheckOR', { Conditions = { IsCompleted(quest_id), IsFailed(quest_id), }, })
+    return AnyOf(IsCompleted(quest_id), IsFailed(quest_id))
 end
 
 -- Helper to check for a specific Triggered Conditional Event (TCE) state.
@@ -125,28 +149,55 @@ local function IsEndgame()
     return IsTCEState("04_Betrayal", "TCE_SwitchGuardpostAttackSquads")
 end
 
+-- Helper to check if a group of NPCs is dead.
+-- Returns a GroupIsDead object.
+local function IsGroupDead(group_id)
+    return PlaceObj('GroupIsDead', { Group = group_id, })
+end
+
+-- Helper to check if Flay's quest has reached a resolved state (dead, recruited, etc.)
+local function IsFlayResolved()
+    return AnyOf(
+        IsCompletedOrFailed("HunterHunted"),
+        IsTrue("HunterHunted", "FlayDead"),
+        IsTrue("HunterHunted", "FlayRecruited"),
+        IsTrue("HunterHunted", "FlayHunting"),
+        IsTrue("HunterHunted", "FlayPacified"),
+        IsTrue("HunterHunted", "FlayCampCombat_Flay")
+    )
+end
+
 -- Sector to Quest Safety Conditions Lookup Table
 local sector_quest_conditions = {
-    -- Savannah North - "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "D9"
-    ["B2"] = {}, ["B3"] = {}, ["B5"] = {}, ["D4"] = {}, ["D9"] = {},
-    ["B4"] = { IsCompleted("HunterHunted") },
-    ["C3"] = { IsCompleted("TreasureHunting") },
-    ["C4"] = { IsCompleted("Docks") },
-    ["C5"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
-    ["D5"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
-    ["C6"] = { IsCompleted("HunterHunted") },
-    ["D6"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
+    -- Savannah North
+    ["B2"] = {},
+    ["B3"] = {},
+    ["B4"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()) },
+    ["B5"] = {},
+    ["C3"] = {}, -- LuckyVeinard banter is already protected from conflict
+    ["C4"] = {},
+    ["C5"] = { AnyOf(IsFalse("PantagruelDramas", "BrothelAbusers"), IsGroupDead("AbuserPoacher_Main"), IsCompleted("NeverHitAGirl")) },
+    ["C6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()) },
+    ["D4"] = {},
+    ["D5"] = {},
+    ["D6"] = { AnyOf(IsFalse("PantagruelDramas", "BrothelAbusers"), IsGroupDead("AbuserOutskirts_Main"), IsCompleted("NeverHitAGirl")) },
+    ["D9"] = { AnyOf(IsCompletedOrFailed("RefugeeBlues"), IsTrue("RefugeeBlues", "ClaudetteSaved"), IsTrue("RefugeeBlues", "ClaudetteDead")) },
 
     -- Savannah South - "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8"
-    ["E4"] = {}, ["F6"] = {}, ["H6"] = {}, ["I7"] = {}, ["I8"] = {}, ["J8"] = {},
+    ["E4"] = {},
+    ["E5"] = { IsCompleted("MiddleOfXWhere") },
+    ["E6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()) },
+    ["E7"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
     ["E8"] = { IsCompleted("ReduceSavannaCampStrength") },
+    ["F5"] = { IsCompleted("PantagruelDramas"), IsCompleted("ReduceSavannaCampStrength") },
+    ["F6"] = {},
     ["F8"] = { IsCompleted("ReduceSavannaCampStrength") },
     ["G6"] = { IsCompleted("ReduceSavannaCampStrength") },
     ["G7"] = { IsCompleted("ReduceSavannaCampStrength") },
-    ["E5"] = { IsCompleted("MiddleOfXWhere") },
-    ["E6"] = { IsCompleted("HunterHunted") },
-    ["E7"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
-    ["F5"] = { IsCompleted("PantagruelDramas"), IsCompleted("ReduceSavannaCampStrength") }, -- Added from Savannah South Guarded
+    ["H6"] = {},
+    ["I7"] = {},
+    ["I8"] = {},
+    ["J8"] = {},
 
     -- Highlands - "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13"
     ["B10"] = {}, ["C9"] = {}, ["C12"] = {}, ["C13"] = {},
@@ -641,7 +692,7 @@ end
 -- This helps identify why certain attacks may or may not be triggering.
 function DumpQuestVariables()
     print("[LCFYA]   » Checking quest status")
-    
+
     local guard_post_attack_squads_switched = EvalConditionList({ IsEndgame() })
     local faucheux_taken_down = EvalConditionList({ IsCompleted("05_TakeDownFaucheux") })
     local corazon_taken_down = EvalConditionList({ IsCompleted("05_TakeDownCorazon") })
