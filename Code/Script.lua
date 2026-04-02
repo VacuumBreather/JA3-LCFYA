@@ -83,77 +83,44 @@ local hourly_threshold_wild = 44
 local cooldown_wild = 2
 local rng_seed = "[LCFYA] "
 
--- Helper to check if a quest is safe to trigger attacks (completed or effectively done)
--- CAN BE REMOVED
--- local function Safe(quest_id)
---     local conditions = {
---         PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Completed"), }),
---     }
-
---     if quest_id == "ReduceBarrierCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Poison" }))
---     elseif quest_id == "ReduceBienChienCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "SlaversGroup" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Defector" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "FreePrisoners" }))
---     elseif quest_id == "ReduceCrocodileCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "CirclingPatrol" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "InfectedInvasion" }))
---     elseif quest_id == "ReduceCrossroadsCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "FridayNightPoker" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "ClaudetteEncounter" }))
---     elseif quest_id == "ReduceMajorCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "MineControl" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "OtherGuardpostControl" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "StairControl" }))
---     elseif quest_id == "ReduceRiverCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "AlphaHyena" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Effigies" }))
---     elseif quest_id == "ReduceSavannaCampStrength" then
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "AbandonedMansion" }))
---         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "BaitOutWithActivity" }))
---     elseif quest_id == "ErnieSideQuests" then
---         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "ErnieSideQuests", Vars = set("RustReinforcmentsSpawn"), }))
---     elseif quest_id == "PantagruelDramas" then
---         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("ChimurengaDead"), }))
---         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("ChimurengaLeave"), }))
---         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("SucceedChimurenga"), }))
---     end
-
---     return PlaceObj('CheckOR', { Conditions = conditions })
--- end
-
--- Helper to check if a sector is NOT owned by the player
+-- Helper to check if a sector is NOT owned by the player.
+-- Returns a SectorCheckOwner object with Negate set to true.
 local function NotOwned(sector_id)
     return PlaceObj('SectorCheckOwner', { Negate = true, sector_id = sector_id })
 end
 
--- Helper to check if a quest is completed
+-- Helper to check if a quest is completed.
+-- Returns a QuestIsVariableBool object checking for the 'Completed' variable.
 local function IsCompleted(quest_id)
     return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Completed"), })
 end
 
--- Helper to check if a quest variable is NOT completed
+-- Helper to check if a quest is NOT yet completed.
+-- Returns a QuestIsVariableBool object checking that the 'Completed' variable is false.
 local function IsNotCompleted(quest_id)
     return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set_neg("Completed") })
 end
 
--- Helper to check if a quest has failed
+-- Helper to check if a quest has failed.
+-- Returns a QuestIsVariableBool object checking for the 'Failed' variable.
 local function IsFailed(quest_id)
     return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Failed"), })
 end
 
--- Helper to check if a quest is completed or has failed
+-- Helper to check if a quest is either completed or has failed.
+-- Returns a CheckOR object containing IsCompleted and IsFailed conditions.
 local function IsCompletedOrFailed(quest_id)
     return PlaceObj('CheckOR', { Conditions = { IsCompleted(quest_id), IsFailed(quest_id), }, })
 end
 
--- Helper to check for specific TCE (Triggered Conditional Event) states
+-- Helper to check for a specific Triggered Conditional Event (TCE) state.
+-- Returns a QuestIsTCEState object for the given quest, property, and optional value (default: "done").
 local function IsTCEState(quest_id, prop, value)
     return PlaceObj('QuestIsTCEState', { QuestId = quest_id, Prop = prop, Value = value or "done" })
 end
 
--- Helper to check if the endgame has started
+-- Helper to check if the endgame phase has started.
+-- This is defined by the TCE_SwitchGuardpostAttackSquads event in the '04_Betrayal' quest.
 local function IsEndgame()
     return IsTCEState("04_Betrayal", "TCE_SwitchGuardpostAttackSquads")
 end
@@ -254,7 +221,9 @@ local sector_quest_conditions = {
     ["I3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
 }
 
--- Function to check an sector for quest safety
+-- Evaluates whether an sector is safe to be a target for an attack based on quest progress.
+-- Uses the sector_quest_conditions lookup table to check specific quest completion requirements.
+-- This prevents attacks from disrupting active quest-related sectors or scripted events.
 local function IsSectorQuestSafe(sector_id)
     local conditions = sector_quest_conditions[sector_id]
     if not conditions or #conditions == 0 then
@@ -264,6 +233,8 @@ local function IsSectorQuestSafe(sector_id)
     return EvalConditionList(conditions)
 end
 
+-- Merges two arrays (t1 and t2) into a new table.
+-- Returns a new table containing elements from t1 followed by elements from t2.
 local function ConcatTables(t1, t2)
     local result = {}
     for _, v in ipairs(t1) do
@@ -537,7 +508,8 @@ function GetDateStringFromDay(day)
     return string.format("%d %s %d", day, month_str, year)
 end
 
--- Utility: Get Current Day
+-- Returns the current day of the campaign (0-indexed).
+-- Uses Game.CampaignTime and const.Scale.day for the calculation.
 local function GetCurrentCampaignDay()
     if Game and Game.CampaignTime then
         return math.floor(Game.CampaignTime / const.Scale.day)
@@ -545,12 +517,15 @@ local function GetCurrentCampaignDay()
     return -1
 end
 
+-- Clears the gv_LCFYA_LastAttackTimestamps table.
+-- Called when mod options are applied or a new campaign starts to reset attack timers.
 local function ResetTimestamps()
     print("[LCFYA]   » Resetting last attack timestamps")
     gv_LCFYA_LastAttackTimestamps = {}
 end
 
--- Pick target sector list based on betray quest status
+-- Determines the list of target sectors for a given attack configuration.
+-- Switches to config.endgame_targets if the '04_Betrayal' quest's capture phase has started.
 local function PickTargets(config)
     local quest = QuestGetState("04_Betrayal")
     local betray_happened = quest and quest.TCE_SpawnCaptureSquads == "done"
@@ -562,10 +537,13 @@ local function PickTargets(config)
     end
 end
 
--- Pick squad based on betray quest status and number of player mines
+-- Selects the appropriate enemy squad for an attack based on world state.
+-- Prioritizes zombie squads if the outbreak is active in a zombie-marked area.
+-- Otherwise, picks between easy/strong or standard/endgame squads based on player mine count and quest progress.
 local function PickAttackSquad(config)
     print(string.format("[LCFYA]   » Picking attack squad for %s", config.name))
 
+    -- Special case for zombie outbreaks
     if config.is_zombie_area then
         local quest = QuestGetState("Sanatorium")
         local zombie_outbreak = quest and quest.MangelTimerGiven and not (quest.Completed or quest.Failed)
@@ -575,11 +553,13 @@ local function PickAttackSquad(config)
         end
     end
 
+    -- Endgame check
     local quest = QuestGetState("04_Betrayal")
     local betray_happened = quest and quest.TCE_SwitchGuardpostAttackSquads == "done"
 
     print(string.format("[LCFYA]     - Quest check - Betrayal occurred: %s", tostring(betray_happened)))
 
+    -- Scaling based on player progress (mines owned)
     local num_player_mines = gv_PlayerSectorCounts.Mine or 0
     local use_hard_enemies = num_player_mines > 2
 
@@ -611,7 +591,8 @@ local function PickAttackSquad(config)
     return chosen_squad
 end
 
--- Get hourly threshold for outpost or wilderness attack
+-- Returns the hourly success threshold for an attack.
+-- Differentiates between Outposts (hourly_threshold) and Wilderness (hourly_threshold_wild).
 function GetHourlyThreshold(config)
     if config.source then
         return hourly_threshold
@@ -620,7 +601,8 @@ function GetHourlyThreshold(config)
     end
 end
 
--- Get cooldown for outpost or wilderness attack
+-- Returns the required cooldown (in days) for an attack.
+-- Differentiates between Outposts (cooldown) and Wilderness (cooldown_wild).
 function GetCooldown(config)
     if config.source then
         return cooldown
@@ -629,7 +611,8 @@ function GetCooldown(config)
     end
 end
 
--- Check if attack type is active
+-- Checks if a specific category of attack (Outpost or Wilderness) is currently enabled.
+-- Attacks are considered inactive if their hourly threshold is set to 0 ("Off").
 function IsActive(config)
     if config.source then
         return hourly_threshold ~= 0
@@ -638,6 +621,8 @@ function IsActive(config)
     end
 end
 
+-- Shuffles the target and squad lists for every configuration to ensure variety in attacks.
+-- Uses a stable RNG seed based on the configuration's group ID.
 function ShuffleTables()
     for _, config in ipairs(attack_configurations) do
         local config_rng_seed = rng_seed .. config.group
@@ -652,7 +637,8 @@ function ShuffleTables()
     end
 end
 
--- Debug world state
+-- Logs the status of various world and quest variables to the console for debugging.
+-- This helps identify why certain attacks may or may not be triggering.
 function DumpQuestVariables()
     print("[LCFYA]   » Checking quest status")
     
@@ -681,7 +667,9 @@ function DumpQuestVariables()
     end
 end
 
--- The Hourly Logic Hook
+-- Primary logic loop that runs at the start of every in-game hour.
+-- Iterates through attack configurations, checks conditions, and rolls for attack success.
+-- If successful, it triggers a 'TriggerSquadAttack' effect targeting a player-occupied, quest-safe sector.
 function OnMsg.NewHour()
     local today = GetCurrentCampaignDay()
 
@@ -773,17 +761,18 @@ function OnMsg.NewHour()
     end
 end
 
--- Synchronize Mod Options
+-- Synchronizes local variables with settings from the Mod Options menu.
+-- This is called whenever options are changed or the game is first initialized.
 function OnMsg.ApplyModOptions(id)
     if id ~= CurrentModId then return end
 
     print("[LCFYA] Applying mod options")
 
-    -- Reset the cooldowns
+    -- Reset the cooldowns to ensure new settings take effect immediately
     ResetTimestamps()
     ShuffleTables()
 
-    -- Get the probability threshold from mod options (defaulting to 20%)
+    -- Synchronize Outpost attack settings
     local daily_chance = CurrentModOptions and CurrentModOptions['options_chance_lcfya'] or "20"
     hourly_threshold = hourly_chance_map[daily_chance]
 
@@ -799,7 +788,7 @@ function OnMsg.ApplyModOptions(id)
         print(string.format("[LCFYA]   » Outpost Attacks: %s%% Daily Chance", daily_chance))
     end
 
-    -- Get the probability threshold from mod options (defaulting to 20%)
+    -- Synchronize Wilderness attack settings
     local daily_chance_wild = CurrentModOptions and CurrentModOptions['options_chance_wild_lcfya'] or "10"
     hourly_threshold_wild = hourly_chance_map[daily_chance_wild]
 
@@ -815,7 +804,7 @@ function OnMsg.ApplyModOptions(id)
         print(string.format("[LCFYA]   » Wilderness Attacks: %s%% Daily Chance", daily_chance_wild))
     end
 
-    -- Cooldowns
+    -- Update Cooldowns from options
     if CurrentModOptions then
         local opt = CurrentModOptions['options_cooldown_lcfya']
         cooldown = tonumber(opt) or 1
@@ -827,12 +816,14 @@ function OnMsg.ApplyModOptions(id)
     end
 end
 
+-- Initializes attack state for a brand new campaign.
 function OnMsg.InitSessionCampaignObjects()
     print("[LCFYA] New campaign started")
     ResetTimestamps()
     ShuffleTables()
 end
 
+-- Validates persistent state and prepares target lists after loading a savegame.
 function OnMsg.LoadSessionData()
     print("[LCFYA] Save game loaded")
     local today = GetCurrentCampaignDay()
@@ -840,7 +831,7 @@ function OnMsg.LoadSessionData()
     print("[LCFYA]   » Performing sanity check on timestamps")
 
     for _, config in ipairs(attack_configurations) do
-        -- Sanity check for timestamp in case a previous savegame leaked through
+        -- Sanity check for timestamp in case a previous savegame leaked through or campaign time was manipulated
         local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.group] or -1
 
         if last_attack_timestamp > today then
@@ -849,5 +840,6 @@ function OnMsg.LoadSessionData()
         end
     end
 
+    -- Re-shuffle to maintain non-deterministic behavior after load
     ShuffleTables()
 end
