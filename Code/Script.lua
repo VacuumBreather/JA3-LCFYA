@@ -525,16 +525,22 @@ local function ResetTimestamps()
 end
 
 -- Determines the list of target sectors for a given attack configuration.
--- Switches to config.endgame_targets if the '04_Betrayal' quest's capture phase has started.
+-- Switches to config.endgame_targets if the endgame has started.
 local function PickTargets(config)
-    local quest = QuestGetState("04_Betrayal")
-    local betray_happened = quest and quest.TCE_SpawnCaptureSquads == "done"
+    local is_endgame = EvalConditionList({ IsEndgame() })
 
-    if betray_happened and config.endgame_targets then
+    if is_endgame and config.endgame_targets then
         return config.endgame_targets
     else
         return config.targets
     end
+end
+
+-- Helper to check if a zombie outbreak is active in the Sanatorium.
+-- Returns true if the Mangel timer has been given and the quest is neither completed nor failed.
+local function IsZombieOutbreakActive()
+    local quest = QuestGetState("Sanatorium")
+    return quest and quest.MangelTimerGiven and not (quest.Completed or quest.Failed)
 end
 
 -- Selects the appropriate enemy squad for an attack based on world state.
@@ -544,20 +550,14 @@ local function PickAttackSquad(config)
     print(string.format("[LCFYA]   » Picking attack squad for %s", config.name))
 
     -- Special case for zombie outbreaks
-    if config.is_zombie_area then
-        local quest = QuestGetState("Sanatorium")
-        local zombie_outbreak = quest and quest.MangelTimerGiven and not (quest.Completed or quest.Failed)
-
-        if zombie_outbreak then
-            return "LCFYA_Infected"
-        end
+    if config.is_zombie_area and IsZombieOutbreakActive() then
+        return "LCFYA_Infected"
     end
 
     -- Endgame check
-    local quest = QuestGetState("04_Betrayal")
-    local betray_happened = quest and quest.TCE_SwitchGuardpostAttackSquads == "done"
+    local is_endgame = EvalConditionList({ IsEndgame() })
 
-    print(string.format("[LCFYA]     - Quest check - Betrayal occurred: %s", tostring(betray_happened)))
+    print(string.format("[LCFYA]     - Quest check - Betrayal occurred: %s", tostring(is_endgame)))
 
     -- Scaling based on player progress (mines owned)
     local num_player_mines = gv_PlayerSectorCounts.Mine or 0
@@ -567,7 +567,7 @@ local function PickAttackSquad(config)
 
     local chosen_squad = false
 
-    if betray_happened and config.endgame_squads then
+    if is_endgame and config.endgame_squads then
         if use_hard_enemies and config.endgame_squads_strong then
             chosen_squad = config.endgame_squads_strong[1]
         else
@@ -583,7 +583,7 @@ local function PickAttackSquad(config)
 
     -- Sanity check
     if not chosen_squad then
-        print("[LCFYA]     - [Warning] No valid squad chosen")
+        print("[LCFYA] [Warning] No valid squad chosen")
     end
 
     print(string.format("[LCFYA]     - Picked squad '%s'", chosen_squad))
@@ -706,7 +706,7 @@ function OnMsg.NewHour()
 
                     -- Sanity check for timestamp in case a previous savegame leaked through
                     if last_attack_timestamp > today then
-                        print(string.format("[LCFYA]   » [Warning] Invalid timestamp detected: %s (Today %s). Resetting.", GetDateStringFromDay(last_attack_timestamp), GetDateStringFromDay(today)))
+                        print(string.format("[LCFYA] [Warning] Invalid timestamp detected: %s (Today %s). Resetting.", GetDateStringFromDay(last_attack_timestamp), GetDateStringFromDay(today)))
                         gv_LCFYA_LastAttackTimestamps[config.group] = -1
                         last_attack_timestamp = -1
                     end
@@ -778,7 +778,7 @@ function OnMsg.ApplyModOptions(id)
 
     -- Sanity check
     if not hourly_threshold then
-        print("[LCFYA]   » [Warning] hourly_threshold was not set - using fallback")
+        print("[LCFYA] [Warning] hourly_threshold was not set - using fallback")
         hourly_threshold = 93
     end
 
@@ -794,7 +794,7 @@ function OnMsg.ApplyModOptions(id)
 
     -- Sanity check
     if not hourly_threshold_wild then
-        print("[LCFYA]   » [Warning] hourly_threshold_wild was not set - using fallback")
+        print("[LCFYA] [Warning] hourly_threshold_wild was not set - using fallback")
         hourly_threshold_wild = 44
     end
 
@@ -835,7 +835,7 @@ function OnMsg.LoadSessionData()
         local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.group] or -1
 
         if last_attack_timestamp > today then
-            print(string.format("[LCFYA]   » [Warning] Invalid timestamp detected: %d (Today %d). Resetting.", last_attack_timestamp, today))
+            print(string.format("[LCFYA] [Warning] Invalid timestamp detected: %d (Today %d). Resetting.", last_attack_timestamp, today))
             gv_LCFYA_LastAttackTimestamps[config.group] = -1
         end
     end
