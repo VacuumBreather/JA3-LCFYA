@@ -1,4 +1,63 @@
+-- Persist attack timestamps in savegame
 GameVar("gv_LCFYA_LastAttackTimestamps", {})
+
+-- Custom Squads
+-- Hyenas
+PlaceObj('EnemySquads', {
+	Units = {
+		PlaceObj('EnemySquadUnit', {
+			'weightedList', {
+				PlaceObj('UnitTypeListWithWeights', {
+					'unitType', "Beast_Hyena",
+					'spawnWeight', 10,
+				}),
+			},
+			'UnitCountMin', 10,
+			'UnitCountMax', 10,
+		}),
+	},
+	displayName = T(548200000001, "Hyena Pack"),
+	group = "Mod_LCFYA Custom Squads",
+	id = "LCFYA_Hyenas",
+})
+
+-- Infected
+PlaceObj('EnemySquads', {
+	Units = {
+		PlaceObj('EnemySquadUnit', {
+			'weightedList', {
+				PlaceObj('UnitTypeListWithWeights', {
+					'unitType', "SanatoriumNPC_Infected",
+					'spawnWeight', 10,
+				}),
+			},
+			'UnitCountMin', 10,
+			'UnitCountMax', 10,
+		}),
+	},
+	displayName = T(739205028532, "Unknown Entities"),
+	group = "Mod_LCFYA Custom Squads",
+	id = "LCFYA_Infected",
+})
+
+-- Crocodiles
+PlaceObj('EnemySquads', {
+	Units = {
+		PlaceObj('EnemySquadUnit', {
+			'weightedList', {
+				PlaceObj('UnitTypeListWithWeights', {
+					'unitType', "Beast_Crocodile",
+					'spawnWeight', 10,
+				}),
+			},
+			'UnitCountMin', 6,
+			'UnitCountMax', 6,
+		}),
+	},
+	displayName = T(233951801999, "Unknown Enemies"),
+	group = "Mod_LCFYA Custom Squads",
+	id = "LCFYA_Crocodiles",
+})
 
 -- Mapping of Daily Percentage Strings to Hourly Thresholds (out of 10,000)
 local hourly_chance_map = {
@@ -25,43 +84,44 @@ local cooldown_wild = 2
 local rng_seed = "[LCFYA] "
 
 -- Helper to check if a quest is safe to trigger attacks (completed or effectively done)
-local function Safe(quest_id)
-    local conditions = {
-        PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Completed"), }),
-    }
+-- CAN BE REMOVED
+-- local function Safe(quest_id)
+--     local conditions = {
+--         PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Completed"), }),
+--     }
 
-    if quest_id == "ReduceBarrierCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Poison" }))
-    elseif quest_id == "ReduceBienChienCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "SlaversGroup" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Defector" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "FreePrisoners" }))
-    elseif quest_id == "ReduceCrocodileCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "CirclingPatrol" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "InfectedInvasion" }))
-    elseif quest_id == "ReduceCrossroadsCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "FridayNightPoker" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "ClaudetteEncounter" }))
-    elseif quest_id == "ReduceMajorCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "MineControl" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "OtherGuardpostControl" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "StairControl" }))
-    elseif quest_id == "ReduceRiverCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "AlphaHyena" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Effigies" }))
-    elseif quest_id == "ReduceSavannaCampStrength" then
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "AbandonedMansion" }))
-        table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "BaitOutWithActivity" }))
-    elseif quest_id == "ErnieSideQuests" then
-        table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "ErnieSideQuests", Vars = set("RustReinforcmentsSpawn"), }))
-    elseif quest_id == "PantagruelDramas" then
-        table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("ChimurengaDead"), }))
-        table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("ChimurengaLeave"), }))
-        table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("SucceedChimurenga"), }))
-    end
+--     if quest_id == "ReduceBarrierCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Poison" }))
+--     elseif quest_id == "ReduceBienChienCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "SlaversGroup" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Defector" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "FreePrisoners" }))
+--     elseif quest_id == "ReduceCrocodileCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "CirclingPatrol" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "InfectedInvasion" }))
+--     elseif quest_id == "ReduceCrossroadsCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "FridayNightPoker" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "ClaudetteEncounter" }))
+--     elseif quest_id == "ReduceMajorCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "MineControl" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "OtherGuardpostControl" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "StairControl" }))
+--     elseif quest_id == "ReduceRiverCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "AlphaHyena" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "Effigies" }))
+--     elseif quest_id == "ReduceSavannaCampStrength" then
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "AbandonedMansion" }))
+--         table.insert(conditions, PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = "BaitOutWithActivity" }))
+--     elseif quest_id == "ErnieSideQuests" then
+--         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "ErnieSideQuests", Vars = set("RustReinforcmentsSpawn"), }))
+--     elseif quest_id == "PantagruelDramas" then
+--         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("ChimurengaDead"), }))
+--         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("ChimurengaLeave"), }))
+--         table.insert(conditions, PlaceObj('QuestIsVariableBool', { QuestId = "PantagruelDramas", Vars = set("SucceedChimurenga"), }))
+--     end
 
-    return PlaceObj('CheckOR', { Conditions = conditions })
-end
+--     return PlaceObj('CheckOR', { Conditions = conditions })
+-- end
 
 -- Helper to check if a quest is completed (Simple version)
 local function Q(quest_id)
@@ -195,6 +255,7 @@ local squads_legion_bienchien_hard = { "LegionAttackers_Shock_Hard", "LegionAtta
 local squads_legion_major_easy = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy" }
 local squads_legion_major_hard = { "LegionAttackers_Ordnance_Hard", "LegionAttackers_Marksmen_Hard" }
 
+-- Squads including wildlife
 local squads_wild_barrens = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LCFYA_Hyenas" }
 local squads_wild_swamp = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", "LCFYA_Crocodiles" }
 local squads_wild_swamp_endgame = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", "LCFYA_Crocodiles" }
@@ -764,58 +825,3 @@ function OnMsg.LoadSessionData()
 
     ShuffleTables()
 end
-
--- Hyenas
-PlaceObj('EnemySquads', {
-	Units = {
-		PlaceObj('EnemySquadUnit', {
-			'weightedList', {
-				PlaceObj('UnitTypeListWithWeights', {
-					'unitType', "Beast_Hyena",
-					'spawnWeight', 10,
-				}),
-			},
-			'UnitCountMin', 10,
-			'UnitCountMax', 10,
-		}),
-	},
-	displayName = T(548200000001, "Hyena Pack"),
-	group = "Mod_LCFYA Custom Squads",
-	id = "LCFYA_Hyenas",
-})
-
-PlaceObj('EnemySquads', {
-	Units = {
-		PlaceObj('EnemySquadUnit', {
-			'weightedList', {
-				PlaceObj('UnitTypeListWithWeights', {
-					'unitType', "SanatoriumNPC_Infected",
-					'spawnWeight', 10,
-				}),
-			},
-			'UnitCountMin', 10,
-			'UnitCountMax', 10,
-		}),
-	},
-	displayName = T(739205028532, "Unknown Entities"),
-	group = "Mod_LCFYA Custom Squads",
-	id = "LCFYA_Infected",
-})
-
-PlaceObj('EnemySquads', {
-	Units = {
-		PlaceObj('EnemySquadUnit', {
-			'weightedList', {
-				PlaceObj('UnitTypeListWithWeights', {
-					'unitType', "Beast_Crocodile",
-					'spawnWeight', 10,
-				}),
-			},
-			'UnitCountMin', 6,
-			'UnitCountMax', 6,
-		}),
-	},
-	displayName = T(233951801999, "Unknown Enemies"),
-	group = "Mod_LCFYA Custom Squads",
-	id = "LCFYA_Crocodiles",
-})
