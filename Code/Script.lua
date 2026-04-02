@@ -212,32 +212,30 @@ local attack_configurations = {
         name = "Barrens",
         group = "Barrens",
         targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LCFYA_Hyenas", },
     },
     {
         -- Cursed Forest
         name = "Cursed Forest",
         group = "CursedForest",
         targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Ordnance_Easy", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
     },
     {
         -- East Swamp
         name = "East Swamp",
         group = "EastSwamp",
         targets = { "E20", "F20", "G19" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", "LCFYA_Crocodiles", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", "LCFYA_Crocodiles", },
     },
     {
         -- Ernie
         name = "Ernie",
         group = "Ernie",
         targets = { "H3", "I2", "I3" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         conditions = {
             PlaceObj('QuestIsTCEState', {
                 Prop = "TCE_SwitchGuardpostAttackSquads",
@@ -251,56 +249,62 @@ local attack_configurations = {
         name = "Farmland",
         group = "Farmland",
         targets = { "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
     },
     {
         -- Great Forest
         name = "Great Forest",
         group = "GreatForest",
         targets = { "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Ordnance_Easy", "LegionAttackers_Shock_Easy" },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        is_zombie_area = true,
     },
     {
         -- Highlands
         name = "Highlands",
         group = "Highlands",
         targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", "LCFYA_Hyenas", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", "LCFYA_Hyenas", },
     },
     {
         -- Savannah North
         name = "Savannah North",
         group = "SavannahNorth",
         targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D9" },
-        squads = { "Hyenas", },
-        endgame_squads = { "Hyenas", },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "LCFYA_Hyenas", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "LCFYA_Hyenas", },
     },
     {
         -- Savannah South
         name = "Savannah South",
         group = "SavannahSouth",
         targets = { "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "LCFYA_Hyenas", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "LCFYA_Hyenas", },
     },
     {
         -- South Jungle
         name = "South Jungle",
         group = "SouthJungle",
         targets = { "J9", "J10", "J11", "J12", "K11", "K12", "K13", "K14", "K15", "L7", "L10", "L11" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Ordnance_Easy", "LegionAttackers_Shock_Easy", },
+        endgame_squads = {
+            "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy",
+            "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy"
+        },
+        is_zombie_area = true,
     },
     {
         -- Wetlands
         name = "Wetlands",
         group = "Wetlands",
         targets = { "G14", "G15", "H13", "H15", "H16", "I13", "I16", "J16" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Shock_Easy", "LCFYA_Crocodiles" },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", "LCFYA_Crocodiles", },
+        is_zombie_area = true,
     },
 }
 
@@ -353,6 +357,15 @@ end
 -- Pick squad based on betray quest status and number of player mines
 local function PickAttackSquad(config)
     print(string.format("[LCFYA]   » Picking attack squad for %s", config.name))
+
+    if config.is_zombie_area then
+        local quest = QuestGetState("Sanatorium")
+        local zombie_outbreak = quest and quest.MangelTimerGiven and not (quest.Completed or quest.Failed)
+
+        if zombie_outbreak then
+            return "LCFYA_Infected"
+        end
+    end
 
     local quest = QuestGetState("04_Betrayal")
     local betray_happened = quest and quest.TCE_SwitchGuardpostAttackSquads == "done"
@@ -414,6 +427,20 @@ function IsActive(config)
         return hourly_threshold ~= 0
     else
         return hourly_threshold_wild ~= 0
+    end
+end
+
+function ShuffleTables()
+    for _, config in ipairs(attack_configurations) do
+        local config_rng_seed = rng_seed .. config.group
+        table.shuffle(config.targets, config_rng_seed)
+        table.shuffle(config.endgame_targets, config_rng_seed)
+
+        table.shuffle(config.squads, config_rng_seed)
+        table.shuffle(config.squads_strong, config_rng_seed)
+
+        table.shuffle(config.endgame_squads, config_rng_seed)
+        table.shuffle(config.endgame_squads_strong, config_rng_seed)
     end
 end
 
@@ -488,30 +515,32 @@ function OnMsg.NewHour()
                         if success then
                             print("[LCFYA]   » Hourly threshold RNG check passed")
                             local attack_squad = PickAttackSquad(config)
-                            print(string.format("[LCFYA]   » Launching attack with '%s' from %s to %s", attack_squad, config.name, valid_target))
+                            if attack_squad then
+                                print(string.format("[LCFYA]   » Launching attack with '%s' from %s to %s", attack_squad, config.name, valid_target))
 
-                            -- Trigger the attack programmatically
-                            local effect = TriggerSquadAttack:new({
-                                Squad = attack_squad,
-                                effect_target_sector_ids = { valid_target },
-                                source_sector_id = config.source or valid_target,
-                            })
-                            effect:__exec()
+                                -- Trigger the attack programmatically
+                                local effect = TriggerSquadAttack:new({
+                                    Squad = attack_squad,
+                                    effect_target_sector_ids = { valid_target },
+                                    source_sector_id = config.source or valid_target,
+                                })
+                                effect:__exec()
 
-                            -- Update timestamp and shuffle for variety
-                            print(string.format("[LCFYA]   » Setting last attack for %s to %s", config.group, GetDateStringFromDay(today)))
-                            gv_LCFYA_LastAttackTimestamps[config.group] = today
+                                -- Update timestamp and shuffle for variety
+                                print(string.format("[LCFYA]   » Setting last attack for %s to %s", config.group, GetDateStringFromDay(today)))
+                                gv_LCFYA_LastAttackTimestamps[config.group] = today
 
-                            print(string.format("[LCFYA]   » Shuffling sector and squad tables for %s", config.group))
+                                print(string.format("[LCFYA]   » Shuffling sector and squad tables for %s", config.group))
 
-                            table.shuffle(config.targets, config_rng_seed)
-                            table.shuffle(config.endgame_targets, config_rng_seed)
+                                table.shuffle(config.targets, config_rng_seed)
+                                table.shuffle(config.endgame_targets, config_rng_seed)
 
-                            table.shuffle(config.squads, config_rng_seed)
-                            table.shuffle(config.squads_strong, config_rng_seed)
+                                table.shuffle(config.squads, config_rng_seed)
+                                table.shuffle(config.squads_strong, config_rng_seed)
 
-                            table.shuffle(config.endgame_squads, config_rng_seed)
-                            table.shuffle(config.endgame_squads_strong, config_rng_seed)
+                                table.shuffle(config.endgame_squads, config_rng_seed)
+                                table.shuffle(config.endgame_squads_strong, config_rng_seed)
+                            end
                         end
                     end
                 end
@@ -528,6 +557,7 @@ function OnMsg.ApplyModOptions(id)
 
     -- Reset the cooldowns
     ResetTimestamps()
+    ShuffleTables()
 
     -- Get the probability threshold from mod options (defaulting to 20%)
     local daily_chance = CurrentModOptions and CurrentModOptions['options_chance_lcfya'] or "20"
@@ -576,6 +606,7 @@ end
 function OnMsg.InitSessionCampaignObjects()
     print("[LCFYA] New campaign started")
     ResetTimestamps()
+    ShuffleTables()
 end
 
 function OnMsg.LoadSessionData()
@@ -593,6 +624,8 @@ function OnMsg.LoadSessionData()
             gv_LCFYA_LastAttackTimestamps[config.group] = -1
         end
     end
+
+    ShuffleTables()
 end
 
 -- Hyenas
@@ -605,11 +638,47 @@ PlaceObj('EnemySquads', {
 					'spawnWeight', 10,
 				}),
 			},
-			'UnitCountMin', 6,
-			'UnitCountMax', 6,
+			'UnitCountMin', 10,
+			'UnitCountMax', 10,
 		}),
 	},
 	displayName = T(548200000001, "Hyena Pack"),
 	group = "Mod_LCFYA Custom Squads",
-	id = "Hyenas",
+	id = "LCFYA_Hyenas",
+})
+
+PlaceObj('EnemySquads', {
+	Units = {
+		PlaceObj('EnemySquadUnit', {
+			'weightedList', {
+				PlaceObj('UnitTypeListWithWeights', {
+					'unitType', "SanatoriumNPC_Infected",
+					'spawnWeight', 10,
+				}),
+			},
+			'UnitCountMin', 10,
+			'UnitCountMax', 10,
+		}),
+	},
+	displayName = T(739205028532, "Unknown Entities"),
+	group = "Mod_LCFYA Custom Squads",
+	id = "LCFYA_Infected",
+})
+
+PlaceObj('EnemySquads', {
+	Units = {
+		PlaceObj('EnemySquadUnit', {
+			'weightedList', {
+				PlaceObj('UnitTypeListWithWeights', {
+					'unitType', "Beast_Crocodile",
+					'spawnWeight', 10,
+				}),
+			},
+			'UnitCountMin', 6,
+			'UnitCountMax', 6,
+		}),
+	},
+	displayName = T(233951801999, "Unknown Enemies"),
+	group = "Mod_LCFYA Custom Squads",
+	id = "LCFYA_Crocodiles",
 })
