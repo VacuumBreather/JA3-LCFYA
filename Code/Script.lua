@@ -232,12 +232,19 @@ local attack_configurations = {
         endgame_squads = {  },
     },
     {
-        -- Erny
-        name = "Erny",
-        group = "Erny",
+        -- Ernie
+        name = "Ernie",
+        group = "Ernie",
         targets = { "H3", "I2", "I3" },
         squads = {  },
         endgame_squads = {  },
+        conditions = {
+            PlaceObj('QuestIsTCEState', {
+                Prop = "TCE_SwitchGuardpostAttackSquads",
+                QuestId = "04_Betrayal",
+                Value = "done",
+            }),
+        },
     },
     {
         -- Farmland
@@ -267,17 +274,17 @@ local attack_configurations = {
         -- Savannah North
         name = "Savannah North",
         group = "SavannahNorth",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "D9" },
-        squads = {  },
-        endgame_squads = {  },
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D9" },
+        squads = { "Hyenas", },
+        endgame_squads = { "Hyenas", },
     },
     {
         -- Savannah South
         name = "Savannah South",
         group = "SavannahSouth",
         targets = { "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
-        squads = {  },
-        endgame_squads = {  },
+        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
     },
     {
         -- South Jungle
@@ -415,8 +422,8 @@ function DumpQuestVariables()
     print("[LCFYA]   » Checking quest status")
     
     local guard_post_attack_squads_switched = EvalConditionList({ PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }), })
-    local faucheux_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = neg("Completed"), }) })
-    local corazon_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = neg("Completed"), }) })
+    local faucheux_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = set_neg("Completed"), }) })
+    local corazon_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = set_neg("Completed"), }) })
 
     print(string.format("[LCFYA]     - Guard post switch done: %s", tostring(guard_post_attack_squads_switched)))
     print(string.format("[LCFYA]     - TakeDownFaucheux completed: %s", tostring(faucheux_taken_down)))
