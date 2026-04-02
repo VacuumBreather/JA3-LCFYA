@@ -123,106 +123,123 @@ local rng_seed = "[LCFYA] "
 --     return PlaceObj('CheckOR', { Conditions = conditions })
 -- end
 
--- Helper to check if a quest is completed (Simple version)
-local function Q(quest_id)
-    return PlaceObj('QuestIsVariableBool', {
-        QuestId = quest_id,
-        Vars = set("Completed"),
-    })
+-- Helper to check if a sector is NOT owned by the player
+local function NotOwned(sector_id)
+    return PlaceObj('SectorCheckOwner', { Negate = true, sector_id = sector_id })
+end
+
+-- Helper to check if a quest is completed
+local function IsCompleted(quest_id)
+    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Completed"), })
+end
+
+-- Helper to check if a quest variable is NOT completed
+local function IsNotCompleted(quest_id)
+    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set_neg("Completed") })
+end
+
+-- Helper to check for specific TCE (Triggered Conditional Event) states
+local function IsTCEState(quest_id, prop, value)
+    return PlaceObj('QuestIsTCEState', { QuestId = quest_id, Prop = prop, Value = value or "done" })
+end
+
+-- Helper to check if the endgame has started
+local function IsEndgame()
+    return IsTCEState("04_Betrayal", "TCE_SwitchGuardpostAttackSquads")
 end
 
 -- Sector to Quest Safety Conditions Lookup Table
 local sector_quest_conditions = {
     -- Savannah North
     ["B2"] = {}, ["B3"] = {}, ["B5"] = {}, ["D4"] = {}, ["D9"] = {},
-    ["B4"] = { Q("HunterHunted") },
-    ["C3"] = { Q("TreasureHunting") },
-    ["C4"] = { Q("Docks") },
-    ["C5"] = { Q("PantagruelDramas"), Q("PantagruelLostAndFound") },
-    ["D5"] = { Q("PantagruelDramas"), Q("PantagruelLostAndFound") },
-    ["C6"] = { Q("HunterHunted") },
-    ["D6"] = { Q("PantagruelDramas"), Q("PantagruelLostAndFound") },
+    ["B4"] = { IsCompleted("HunterHunted") },
+    ["C3"] = { IsCompleted("TreasureHunting") },
+    ["C4"] = { IsCompleted("Docks") },
+    ["C5"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
+    ["D5"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
+    ["C6"] = { IsCompleted("HunterHunted") },
+    ["D6"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
 
     -- Savannah South
     ["E4"] = {}, ["F6"] = {}, ["H6"] = {}, ["I7"] = {}, ["I8"] = {}, ["J8"] = {},
-    ["E8"] = { Q("ReduceSavannaCampStrength") },
-    ["F8"] = { Q("ReduceSavannaCampStrength") },
-    ["G6"] = { Q("ReduceSavannaCampStrength") },
-    ["G7"] = { Q("ReduceSavannaCampStrength") },
-    ["E5"] = { Q("MiddleOfXWhere") },
-    ["E6"] = { Q("HunterHunted") },
-    ["E7"] = { Q("PantagruelDramas"), Q("PantagruelLostAndFound") },
-    ["F5"] = { Q("PantagruelDramas"), Q("ReduceSavannaCampStrength") }, -- Added from Savannah South Guarded
+    ["E8"] = { IsCompleted("ReduceSavannaCampStrength") },
+    ["F8"] = { IsCompleted("ReduceSavannaCampStrength") },
+    ["G6"] = { IsCompleted("ReduceSavannaCampStrength") },
+    ["G7"] = { IsCompleted("ReduceSavannaCampStrength") },
+    ["E5"] = { IsCompleted("MiddleOfXWhere") },
+    ["E6"] = { IsCompleted("HunterHunted") },
+    ["E7"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
+    ["F5"] = { IsCompleted("PantagruelDramas"), IsCompleted("ReduceSavannaCampStrength") }, -- Added from Savannah South Guarded
 
     -- Highlands
     ["B10"] = {}, ["C9"] = {}, ["C12"] = {}, ["C13"] = {},
-    ["B9"] = { Q("ReduceCrossroadsCampStrength") },
-    ["C11"] = { Q("Landsbach") },
-    ["A9"] = { Q("RescueBiff") },
-    ["A10"] = { Q("MiddleOfNowhere") },
-    ["A11"] = { Q("MiddleOfNowhere") },
-    ["B8"] = { Q("RescueBiff") },
+    ["B9"] = { IsCompleted("ReduceCrossroadsCampStrength") },
+    ["C11"] = { IsCompleted("Landsbach") },
+    ["A9"] = { IsCompleted("RescueBiff") },
+    ["A10"] = { IsCompleted("MiddleOfNowhere") },
+    ["A11"] = { IsCompleted("MiddleOfNowhere") },
+    ["B8"] = { IsCompleted("RescueBiff") },
     ["D9"] = {}, -- Savannah North / Highlands border
 
     -- Great Forest / Sanatorium / Fleatown
     ["D11"] = {}, ["D12"] = {}, ["E10"] = {}, ["E11"] = {}, ["E12"] = {}, ["F10"] = {}, ["F11"] = {}, ["G9"] = {}, ["G11"] = {}, ["G12"] = {}, ["G13"] = {}, ["H10"] = {}, ["H11"] = {}, ["I11"] = {},
-    ["F9"] = { Q("VoodooCult"), Q("FleatownGeneral"), Q("PiratesGold") },
-    ["F12"] = { Q("VoodooCult"), Q("FleatownGeneral"), Q("PiratesGold") },
-    ["I10"] = { Q("VoodooCult"), Q("FleatownGeneral"), Q("PiratesGold") },
-    ["I12"] = { Q("Sanatorium") },
-    ["J11"] = { Q("Sanatorium") },
+    ["F9"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
+    ["F12"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
+    ["I10"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
+    ["I12"] = { IsCompleted("Sanatorium") },
+    ["J11"] = { IsCompleted("Sanatorium") },
 
     -- South Jungle
     ["J9"] = {}, ["J10"] = {}, ["J12"] = {}, ["K11"] = {}, ["K12"] = {}, ["K13"] = {}, ["L7"] = {}, ["L10"] = {}, ["L11"] = {},
-    ["K14"] = { Q("Sanatorium") },
-    ["K15"] = { Q("Sanatorium"), Q("04_Betrayal") },
+    ["K14"] = { IsCompleted("Sanatorium") },
+    ["K15"] = { IsCompleted("Sanatorium"), IsCompleted("04_Betrayal") },
 
     -- Wetlands
     ["G14"] = {}, ["I13"] = {}, ["I16"] = {}, ["J16"] = {},
-    ["H13"] = { Q("ReduceCrocodileCampStrength") },
-    ["H14"] = { Q("ReduceCrocodileCampStrength") },
-    ["G15"] = { Q("VoodooCult"), Q("WetlandsSideQuests") },
-    ["H15"] = { Q("VoodooCult"), Q("WetlandsSideQuests") },
-    ["H16"] = { Q("Sanatorium") },
+    ["H13"] = { IsCompleted("ReduceCrocodileCampStrength") },
+    ["H14"] = { IsCompleted("ReduceCrocodileCampStrength") },
+    ["G15"] = { IsCompleted("VoodooCult"), IsCompleted("WetlandsSideQuests") },
+    ["H15"] = { IsCompleted("VoodooCult"), IsCompleted("WetlandsSideQuests") },
+    ["H16"] = { IsCompleted("Sanatorium") },
 
     -- Cursed Forest
     ["C15"] = {}, ["E14"] = {},
-    ["D15"] = { Q("ReduceRiverCampStrength") },
-    ["C14"] = { Q("CursedForestSideQuests") },
-    ["C16"] = { Q("CursedForestSideQuests") },
-    ["D13"] = { Q("CursedForestSideQuests") },
-    ["D14"] = { Q("CursedForestSideQuests") },
-    ["D16"] = { Q("CursedForestSideQuests") },
-    ["E13"] = { Q("CursedForestSideQuests") },
-    ["E15"] = { Q("CursedForestSideQuests") },
-    ["D19"] = { Q("CharonsBoat") },
-    ["D20"] = { Q("CharonsBoat") },
+    ["D15"] = { IsCompleted("ReduceRiverCampStrength") },
+    ["C14"] = { IsCompleted("CursedForestSideQuests") },
+    ["C16"] = { IsCompleted("CursedForestSideQuests") },
+    ["D13"] = { IsCompleted("CursedForestSideQuests") },
+    ["D14"] = { IsCompleted("CursedForestSideQuests") },
+    ["D16"] = { IsCompleted("CursedForestSideQuests") },
+    ["E13"] = { IsCompleted("CursedForestSideQuests") },
+    ["E15"] = { IsCompleted("CursedForestSideQuests") },
+    ["D19"] = { IsCompleted("CharonsBoat") },
+    ["D20"] = { IsCompleted("CharonsBoat") },
 
     -- Farmland / East Swamp / Ted
     ["F20"] = {}, ["G19"] = {}, ["I20"] = {}, ["L20"] = {},
-    ["E20"] = { Q("ReduceBienChienCampStrength") },
-    ["J19"] = { Q("Ted") },
-    ["J20"] = { Q("Ted") },
-    ["K17"] = { Q("Ted") },
-    ["K18"] = { Q("Ted") },
-    ["K19"] = { Q("Ted") },
-    ["L19"] = { Q("Ted") },
-    ["J18"] = { Q("Ted") }, -- Farmland Ted targets
-    ["K20"] = { Q("Ted") },
-    ["L17"] = { Q("Ted") },
+    ["E20"] = { IsCompleted("ReduceBienChienCampStrength") },
+    ["J19"] = { IsCompleted("Ted") },
+    ["J20"] = { IsCompleted("Ted") },
+    ["K17"] = { IsCompleted("Ted") },
+    ["K18"] = { IsCompleted("Ted") },
+    ["K19"] = { IsCompleted("Ted") },
+    ["L19"] = { IsCompleted("Ted") },
+    ["J18"] = { IsCompleted("Ted") }, -- Farmland Ted targets
+    ["K20"] = { IsCompleted("Ted") },
+    ["L17"] = { IsCompleted("Ted") },
 
     -- Barrens / Eagle's Nest
     ["A16"] = {}, ["A17"] = {}, ["A19"] = {}, ["B17"] = {},
-    ["A18"] = { Q("RescueBiff") },
-    ["B16"] = { Q("RescueBiff") },
-    ["B18"] = { Q("RescueBiff") },
-    ["B19"] = { Q("RescueBiff") },
-    ["B20"] = { Q("RescueBiff") },
+    ["A18"] = { IsCompleted("RescueBiff") },
+    ["B16"] = { IsCompleted("RescueBiff") },
+    ["B18"] = { IsCompleted("RescueBiff") },
+    ["B19"] = { IsCompleted("RescueBiff") },
+    ["B20"] = { IsCompleted("RescueBiff") },
 
     -- Ernie
-    ["H3"] = { Q("ErnieSideQuests"), Q("04_Betrayal") },
-    ["I2"] = { Q("ErnieSideQuests"), Q("04_Betrayal") },
-    ["I3"] = { Q("ErnieSideQuests"), Q("04_Betrayal") },
+    ["H3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
+    ["I2"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
+    ["I3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
 }
 
 -- Function to check an sector for quest safety
@@ -284,11 +301,7 @@ local attack_configurations = {
         },
         squads = squads_adonis_easy,
         squads_strong = squads_adonis_hard,
-        conditions = {
-            PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "H4", }),
-            PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }),
-            PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = set_neg("Completed"), }),
-        },
+        conditions = { NotOwned("H4"), IsEndgame(), IsNotCompleted("05_TakeDownCorazon"), },
     },
     {
         -- Camp Savane
@@ -300,7 +313,7 @@ local attack_configurations = {
         squads_strong = squads_legion_savane_hard,
         endgame_squads = squads_adonis_easy,
         endgame_squads_strong = squads_adonis_hard,
-        conditions = { PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "F7", }), },
+        conditions = { NotOwned("F7"), },
     },
     {
         -- Camp La Barrière
@@ -312,7 +325,7 @@ local attack_configurations = {
         squads_strong = squads_legion_barriere_hard,
         endgame_squads = squads_adonis_easy,
         endgame_squads_strong = squads_adonis_hard,
-        conditions = { PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "G10", }), Q("ReduceBarrierCampStrength"), },
+        conditions = { NotOwned("G10"), },
     },
     {
         --Camp Grand Prix
@@ -324,7 +337,7 @@ local attack_configurations = {
         squads_strong = squads_legion_grandprix_hard,
         endgame_squads = squads_adonis_easy,
         endgame_squads_strong = squads_adonis_hard,
-        conditions = { PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "D10", }), },
+        conditions = { NotOwned("D10"), },
     },
     {
         -- Camp du Crocodile
@@ -336,7 +349,7 @@ local attack_configurations = {
         squads_strong = squads_legion_crocodile_hard,
         endgame_squads = squads_army_crocodile_easy,
         endgame_squads_strong = squads_army_crocodile_hard,
-        conditions = { PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "H14", }), Q("ReduceCrocodileCampStrength"), },
+        conditions = { NotOwned("H14"), },
     },
     {
         -- Camp Chien Sauvage
@@ -348,7 +361,7 @@ local attack_configurations = {
         squads_strong = squads_legion_chiensauvage_hard,
         endgame_squads = squads_army_crocodile_easy,
         endgame_squads_strong = squads_army_crocodile_hard,
-        conditions = { PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "E16", }), },
+        conditions = { NotOwned("E16"), },
     },
     {
         -- Camp Bien Chien
@@ -360,7 +373,7 @@ local attack_configurations = {
         squads_strong = squads_legion_bienchien_hard,
         endgame_squads = squads_army_crocodile_easy,
         endgame_squads_strong = squads_army_crocodile_hard,
-        conditions = { PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "F19", }), Q("ReduceBienChienCampStrength"), },
+        conditions = { NotOwned("F19"), },
     },
     {
         -- The Eagle's Nest
@@ -370,10 +383,7 @@ local attack_configurations = {
         targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20" },
         squads = squads_legion_major_easy,
         squads_strong = squads_legion_major_hard,
-        conditions = {
-            PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "A20", }),
-            PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownMajor", Vars = set_neg("Completed"), }),
-        },
+        conditions = { NotOwned("A20"), IsNotCompleted("05_TakeDownMajor"), },
     },
     {
         -- Fort Brigand
@@ -387,11 +397,7 @@ local attack_configurations = {
         },
         squads = squads_army_crocodile_easy,
         squads_strong = squads_army_crocodile_hard,
-        conditions = {
-            PlaceObj('SectorCheckOwner', { Negate = true, sector_id = "K16", }),
-            PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }),
-            PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = set_neg("Completed"), }),
-        },
+        conditions = { NotOwned("K16"), IsEndgame(), IsNotCompleted("05_TakeDownFaucheux"), },
     },
 
     -- Wilderness Regions
@@ -424,10 +430,7 @@ local attack_configurations = {
         group = "Ernie",
         targets = { "H3", "I2", "I3" },
         squads = squads_adonis_easy,
-        conditions = {
-            PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }),
-            Q("04_Betrayal"), Q("ErnieSideQuests"),
-        },
+        conditions = { IsEndgame(), },
     },
     {
         -- Farmland
@@ -630,10 +633,10 @@ end
 function DumpQuestVariables()
     print("[LCFYA]   » Checking quest status")
     
-    local guard_post_attack_squads_switched = EvalConditionList({ PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }), })
-    local faucheux_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = set("Completed"), }) })
-    local corazon_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = set("Completed"), }) })
-    local major_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownMajor", Vars = set("Completed"), }) })
+    local guard_post_attack_squads_switched = EvalConditionList({ IsEndgame() })
+    local faucheux_taken_down = EvalConditionList({ IsCompleted("05_TakeDownFaucheux") })
+    local corazon_taken_down = EvalConditionList({ IsCompleted("05_TakeDownCorazon") })
+    local major_taken_down = EvalConditionList({ IsCompleted("05_TakeDownMajor") })
 
     print(string.format("[LCFYA]     - Guard post switch done: %s", tostring(guard_post_attack_squads_switched)))
     print(string.format("[LCFYA]     - TakeDownFaucheux completed: %s", tostring(faucheux_taken_down)))
@@ -650,7 +653,7 @@ function DumpQuestVariables()
     }
 
     for _, quest_id in ipairs(sector_guard_quests) do
-        local completed = EvalConditionList({ Q(quest_id) })
+        local completed = EvalConditionList({ IsCompleted(quest_id) })
         print(string.format("[LCFYA]     - %s completed: %s", quest_id, tostring(completed)))
     end
 end
