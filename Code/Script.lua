@@ -319,7 +319,7 @@ local attack_configurations = {
         name = "Camp Grand Prix (D10)",
         source = "D10",
         group = "D10",
-        targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13", "D11", "D12", "E10", "E11", "E12" },
+        targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13", "D9", "D11", "D12", "E10", "E11", "E12" },
         squads = squads_legion_grandprix_easy,
         squads_strong = squads_legion_grandprix_hard,
         endgame_squads = squads_adonis_easy,
@@ -331,7 +331,7 @@ local attack_configurations = {
         name = "Camp du Crocodile (H14)",
         source = "H14",
         group = "H14",
-        targets = { "G13", "G14", "G15", "H15", "H16", "I12", "I16", "J12", "J16", "K12", "K13", "K14" },
+        targets = { "G13", "G14", "G15", "H13", "H15", "H16", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15" },
         squads = squads_legion_crocodile_easy,
         squads_strong = squads_legion_crocodile_hard,
         endgame_squads = squads_army_crocodile_easy,
@@ -355,7 +355,7 @@ local attack_configurations = {
         name = "Camp Bien Chien (F19)",
         source = "F19",
         group = "F19",
-        targets = { "F20", "G19", "I20", "J19", "J20", "K17", "K18", "K19", "L19", "L20" },
+        targets = { "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20" },
         squads = squads_legion_bienchien_easy,
         squads_strong = squads_legion_bienchien_hard,
         endgame_squads = squads_army_crocodile_easy,
@@ -381,9 +381,9 @@ local attack_configurations = {
         source = "K16",
         group = "K16",
         targets = {
-            "G13", "G14", "G15", "H13", "H15", "H16", "I12", "I16", "J12", "J16", "K12", "K13", "K14", "K15", -- Camp du Crocodile
-            "E20", "F20", "G19", "I20", "J19", "J20", "K17", "K18", "K19", "L19", "L20", -- Camp Bien Chien
-            "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15" -- Camp Chien Sauvage
+            "G13", "G14", "G15", "H13", "H15", "H16", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", -- Camp du Crocodile
+            "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", -- Camp Bien Chien
+            "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", -- Camp Chien Sauvage
         },
         squads = squads_army_crocodile_easy,
         squads_strong = squads_army_crocodile_hard,
@@ -399,7 +399,7 @@ local attack_configurations = {
         -- Barrens
         name = "Barrens",
         group = "Barrens",
-        targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20", "E20" },
+        targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20" },
         squads = squads_wild_barrens,
     },
     {
@@ -441,7 +441,7 @@ local attack_configurations = {
         -- Great Forest
         name = "Great Forest",
         group = "GreatForest",
-        targets = { "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12", "J11" },
+        targets = { "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12" },
         squads = squads_legion_barriere_easy,
         endgame_squads = squads_adonis_easy,
         is_zombie_area = true,
@@ -450,7 +450,7 @@ local attack_configurations = {
         -- Highlands
         name = "Highlands",
         group = "Highlands",
-        targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C11", "C12", "C13", "D9" },
+        targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13" },
         squads = squads_wild_highlands,
         endgame_squads = squads_wild_highlands_endgame,
     },
@@ -458,7 +458,7 @@ local attack_configurations = {
         -- Savannah North
         name = "Savannah North",
         group = "SavannahNorth",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "D9" },
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D9" },
         squads = squads_wild_savannah,
         endgame_squads = squads_wild_savannah_endgame,
     },
@@ -483,7 +483,7 @@ local attack_configurations = {
         -- Wetlands
         name = "Wetlands",
         group = "Wetlands",
-        targets = { "G14", "G15", "H13", "H14", "H15", "H16", "I13", "I16", "J16" },
+        targets = { "G14", "G15", "H13", "H15", "H16", "I13", "I16", "J16" },
         squads = squads_wild_wetlands,
         endgame_squads = squads_wild_wetlands_endgame,
         is_zombie_area = true,
