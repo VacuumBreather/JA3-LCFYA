@@ -150,7 +150,7 @@ end
 
 -- Sector to Quest Safety Conditions Lookup Table
 local sector_quest_conditions = {
-    -- Savannah North
+    -- Savannah North - "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D9"
     ["B2"] = {}, ["B3"] = {}, ["B5"] = {}, ["D4"] = {}, ["D9"] = {},
     ["B4"] = { IsCompleted("HunterHunted") },
     ["C3"] = { IsCompleted("TreasureHunting") },
@@ -160,7 +160,7 @@ local sector_quest_conditions = {
     ["C6"] = { IsCompleted("HunterHunted") },
     ["D6"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
 
-    -- Savannah South
+    -- Savannah South - "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8"
     ["E4"] = {}, ["F6"] = {}, ["H6"] = {}, ["I7"] = {}, ["I8"] = {}, ["J8"] = {},
     ["E8"] = { IsCompleted("ReduceSavannaCampStrength") },
     ["F8"] = { IsCompleted("ReduceSavannaCampStrength") },
@@ -171,7 +171,7 @@ local sector_quest_conditions = {
     ["E7"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
     ["F5"] = { IsCompleted("PantagruelDramas"), IsCompleted("ReduceSavannaCampStrength") }, -- Added from Savannah South Guarded
 
-    -- Highlands
+    -- Highlands - "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13"
     ["B10"] = {}, ["C9"] = {}, ["C12"] = {}, ["C13"] = {},
     ["B9"] = { IsCompleted("ReduceCrossroadsCampStrength") },
     ["C11"] = { IsCompleted("Landsbach") },
@@ -181,7 +181,7 @@ local sector_quest_conditions = {
     ["B8"] = { IsCompleted("RescueBiff") },
     ["D9"] = {}, -- Savannah North / Highlands border
 
-    -- Great Forest / Sanatorium / Fleatown
+    -- Great Forest / Sanatorium / Fleatown - "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12"
     ["D11"] = {}, ["D12"] = {}, ["E10"] = {}, ["E11"] = {}, ["E12"] = {}, ["F10"] = {}, ["F11"] = {}, ["G9"] = {}, ["G11"] = {}, ["G12"] = {}, ["G13"] = {}, ["H10"] = {}, ["H11"] = {}, ["I11"] = {},
     ["F9"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
     ["F12"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
@@ -189,12 +189,12 @@ local sector_quest_conditions = {
     ["I12"] = { IsCompleted("Sanatorium") },
     ["J11"] = { IsCompleted("Sanatorium") },
 
-    -- South Jungle
+    -- South Jungle - "J9", "J10", "J11", "J12", "K11", "K12", "K13", "K14", "K15", "L7", "L10", "L11"
     ["J9"] = {}, ["J10"] = {}, ["J12"] = {}, ["K11"] = {}, ["K12"] = {}, ["K13"] = {}, ["L7"] = {}, ["L10"] = {}, ["L11"] = {},
     ["K14"] = { IsCompleted("Sanatorium") },
     ["K15"] = { IsCompleted("Sanatorium"), IsCompleted("04_Betrayal") },
 
-    -- Wetlands
+    -- Wetlands - "G14", "G15", "H13", "H15", "H16", "I13", "I16", "J16"
     ["G14"] = {}, ["I13"] = {}, ["I16"] = {}, ["J16"] = {},
     ["H13"] = { IsCompleted("ReduceCrocodileCampStrength") },
     ["H14"] = { IsCompleted("ReduceCrocodileCampStrength") },
@@ -202,7 +202,7 @@ local sector_quest_conditions = {
     ["H15"] = { IsCompleted("VoodooCult"), IsCompleted("WetlandsSideQuests") },
     ["H16"] = { IsCompleted("Sanatorium") },
 
-    -- Cursed Forest
+    -- Cursed Forest - "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15"
     ["C15"] = {}, ["E14"] = {},
     ["D15"] = { IsCompleted("ReduceRiverCampStrength") },
     ["C14"] = { IsCompleted("CursedForestSideQuests") },
@@ -215,6 +215,8 @@ local sector_quest_conditions = {
     ["D19"] = { IsCompleted("CharonsBoat") },
     ["D20"] = { IsCompleted("CharonsBoat") },
 
+    -- East Swamp - "E20", "F20", "G19"
+    -- Farmland - "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20"
     -- Farmland / East Swamp / Ted
     ["F20"] = {}, ["G19"] = {}, ["I20"] = {}, ["L20"] = {},
     ["E20"] = { IsCompleted("ReduceBienChienCampStrength") },
@@ -228,7 +230,7 @@ local sector_quest_conditions = {
     ["K20"] = { IsCompleted("Ted") },
     ["L17"] = { IsCompleted("Ted") },
 
-    -- Barrens / Eagle's Nest
+    -- Barrens / Eagle's Nest - "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20"
     ["A16"] = {}, ["A17"] = {}, ["A19"] = {}, ["B17"] = {},
     ["A18"] = { IsCompleted("RescueBiff") },
     ["B16"] = { IsCompleted("RescueBiff") },
@@ -236,7 +238,7 @@ local sector_quest_conditions = {
     ["B19"] = { IsCompleted("RescueBiff") },
     ["B20"] = { IsCompleted("RescueBiff") },
 
-    -- Ernie
+    -- Ernie - "H3", "I2", "I3"
     ["H3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
     ["I2"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
     ["I3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
