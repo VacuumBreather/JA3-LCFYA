@@ -138,6 +138,16 @@ local function IsNotCompleted(quest_id)
     return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set_neg("Completed") })
 end
 
+-- Helper to check if a quest has failed
+local function IsFailed(quest_id)
+    return PlaceObj('QuestIsVariableBool', { QuestId = quest_id, Vars = set("Failed"), })
+end
+
+-- Helper to check if a quest is completed or has failed
+local function IsCompletedOrFailed(quest_id)
+    return PlaceObj('CheckOR', { Conditions = { IsCompleted(quest_id), IsFailed(quest_id), }, })
+end
+
 -- Helper to check for specific TCE (Triggered Conditional Event) states
 local function IsTCEState(quest_id, prop, value)
     return PlaceObj('QuestIsTCEState', { QuestId = quest_id, Prop = prop, Value = value or "done" })
