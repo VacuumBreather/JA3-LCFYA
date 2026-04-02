@@ -264,6 +264,17 @@ local function IsSectorQuestSafe(sector_id)
     return EvalConditionList(conditions)
 end
 
+local function ConcatTables(t1, t2)
+    local result = {}
+    for _, v in ipairs(t1) do
+        result[#result + 1] = v
+    end
+    for _, v in ipairs(t2) do
+        result[#result + 1] = v
+    end
+    return result
+end
+
 -- Shared squad lists to reduce repetition
 local squads_adonis_easy = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy" }
 local squads_adonis_hard = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard" }
@@ -295,7 +306,7 @@ local squads_wild_savannah_endgame = { "AdonisAttackers_ShockAttack_Easy", "Adon
 local squads_wild_wetlands = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Shock_Easy", "LCFYA_Crocodiles" }
 local squads_wild_wetlands_endgame = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", "LCFYA_Crocodiles" }
 
-local squads_southjungle_endgame = table.concat(squads_adonis_easy, squads_army_easy)
+local squads_southjungle_endgame = ConcatTables(squads_adonis_easy, squads_army_easy)
 
 -- Define possible attacks
 local attack_configurations = {
