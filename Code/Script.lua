@@ -150,7 +150,7 @@ end
 
 -- Sector to Quest Safety Conditions Lookup Table
 local sector_quest_conditions = {
-    -- Savannah North - "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D9"
+    -- Savannah North - "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "D9"
     ["B2"] = {}, ["B3"] = {}, ["B5"] = {}, ["D4"] = {}, ["D9"] = {},
     ["B4"] = { IsCompleted("HunterHunted") },
     ["C3"] = { IsCompleted("TreasureHunting") },
@@ -463,7 +463,7 @@ local attack_configurations = {
         -- Savannah North
         name = "Savannah North",
         group = "SavannahNorth",
-        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D9" },
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "D9" },
         squads = squads_wild_savannah,
         endgame_squads = squads_wild_savannah_endgame,
     },
