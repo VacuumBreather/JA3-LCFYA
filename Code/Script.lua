@@ -255,6 +255,8 @@ end
 -- Shared squad lists to reduce repetition
 local squads_adonis_easy = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy" }
 local squads_adonis_hard = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard" }
+local squads_army_easy = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy" }
+local squads_army_hard = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard" }
 local squads_legion_savane_easy = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy" }
 local squads_legion_savane_hard = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard" }
 local squads_legion_barriere_easy = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Ordnance_Easy", "LegionAttackers_Shock_Easy" }
@@ -263,8 +265,6 @@ local squads_legion_grandprix_easy = { "LegionAttackers_Balanced_Easy", "LegionA
 local squads_legion_grandprix_hard = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard" }
 local squads_legion_crocodile_easy = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Shock_Easy" }
 local squads_legion_crocodile_hard = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Shock_Hard" }
-local squads_army_crocodile_easy = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy" }
-local squads_army_crocodile_hard = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard" }
 local squads_legion_chiensauvage_easy = { "LegionAttackers_Shock_Easy", "LegionAttackers_Ordnance_Easy" }
 local squads_legion_chiensauvage_hard = { "LegionAttackers_Shock_Hard", "LegionAttackers_Ordnance_Hard" }
 local squads_legion_bienchien_easy = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy" }
@@ -283,7 +283,7 @@ local squads_wild_savannah_endgame = { "AdonisAttackers_ShockAttack_Easy", "Adon
 local squads_wild_wetlands = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Shock_Easy", "LCFYA_Crocodiles" }
 local squads_wild_wetlands_endgame = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", "LCFYA_Crocodiles" }
 
-local squads_southjungle_endgame = table.concat(squads_adonis_easy, squads_army_crocodile_easy)
+local squads_southjungle_endgame = table.concat(squads_adonis_easy, squads_army_easy)
 
 -- Define possible attacks
 local attack_configurations = {
@@ -347,8 +347,8 @@ local attack_configurations = {
         targets = { "G13", "G14", "G15", "H13", "H15", "H16", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15" },
         squads = squads_legion_crocodile_easy,
         squads_strong = squads_legion_crocodile_hard,
-        endgame_squads = squads_army_crocodile_easy,
-        endgame_squads_strong = squads_army_crocodile_hard,
+        endgame_squads = squads_army_easy,
+        endgame_squads_strong = squads_army_hard,
         conditions = { NotOwned("H14"), },
     },
     {
@@ -359,8 +359,8 @@ local attack_configurations = {
         targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15" },
         squads = squads_legion_chiensauvage_easy,
         squads_strong = squads_legion_chiensauvage_hard,
-        endgame_squads = squads_army_crocodile_easy,
-        endgame_squads_strong = squads_army_crocodile_hard,
+        endgame_squads = squads_army_easy,
+        endgame_squads_strong = squads_army_hard,
         conditions = { NotOwned("E16"), },
     },
     {
@@ -371,8 +371,8 @@ local attack_configurations = {
         targets = { "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20" },
         squads = squads_legion_bienchien_easy,
         squads_strong = squads_legion_bienchien_hard,
-        endgame_squads = squads_army_crocodile_easy,
-        endgame_squads_strong = squads_army_crocodile_hard,
+        endgame_squads = squads_army_easy,
+        endgame_squads_strong = squads_army_hard,
         conditions = { NotOwned("F19"), },
     },
     {
@@ -395,8 +395,8 @@ local attack_configurations = {
             "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", -- Camp Bien Chien
             "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", -- Camp Chien Sauvage
         },
-        squads = squads_army_crocodile_easy,
-        squads_strong = squads_army_crocodile_hard,
+        squads = squads_army_easy,
+        squads_strong = squads_army_hard,
         conditions = { NotOwned("K16"), IsEndgame(), IsNotCompleted("05_TakeDownFaucheux"), },
     },
 
@@ -414,7 +414,7 @@ local attack_configurations = {
         group = "CursedForest",
         targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15" },
         squads = squads_legion_chiensauvage_easy,
-        endgame_squads = squads_army_crocodile_easy,
+        endgame_squads = squads_army_easy,
     },
     {
         -- East Swamp
@@ -438,7 +438,7 @@ local attack_configurations = {
         group = "Farmland",
         targets = { "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20" },
         squads = squads_legion_bienchien_easy,
-        endgame_squads = squads_army_crocodile_easy,
+        endgame_squads = squads_army_easy,
     },
     {
         -- Great Forest
