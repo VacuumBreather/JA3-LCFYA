@@ -422,8 +422,8 @@ function DumpQuestVariables()
     print("[LCFYA]   » Checking quest status")
     
     local guard_post_attack_squads_switched = EvalConditionList({ PlaceObj('QuestIsTCEState', { Prop = "TCE_SwitchGuardpostAttackSquads", QuestId = "04_Betrayal", Value = "done", }), })
-    local faucheux_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = set_neg("Completed"), }) })
-    local corazon_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = set_neg("Completed"), }) })
+    local faucheux_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownFaucheux", Vars = set("Completed"), }) })
+    local corazon_taken_down = EvalConditionList({ PlaceObj('QuestIsVariableBool', { QuestId = "05_TakeDownCorazon", Vars = set("Completed"), }) })
 
     print(string.format("[LCFYA]     - Guard post switch done: %s", tostring(guard_post_attack_squads_switched)))
     print(string.format("[LCFYA]     - TakeDownFaucheux completed: %s", tostring(faucheux_taken_down)))
