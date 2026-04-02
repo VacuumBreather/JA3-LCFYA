@@ -34,9 +34,9 @@ local attack_configurations = {
         group = "H4",
         targets = {
             "H3", "I2", "I3", -- Ernie Island
-            "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", -- Camp Savane
-            "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", -- Camp Grand Prix
-            "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11", -- Camp La Barriere
+            "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", -- Camp Savane
+            "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13", "D9", "D11", "D12", "E10", "E11", "E12", -- Camp Grand Prix
+            "F9", "F10", "F11", "F12", "G9", "G11", "G12", "H10", "H11", "I10", "I11", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11", -- Camp La Barriere
         },
         squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
         squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
@@ -183,7 +183,7 @@ local attack_configurations = {
         source = "K16",
         group = "K16",
         targets = {
-            "G12", "G13", "G14", "G15", "H11", "H13", "H15", "H16", "I11", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", -- Camp Du Crocodile
+            "G13", "G14", "G15", "H13", "H15", "H16", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", -- Camp Du Crocodile
             "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", -- Camp Bien Chien
             "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", -- Camp Chien Sauvage
         },
@@ -609,6 +609,7 @@ PlaceObj('EnemySquads', {
 			'UnitCountMax', 6,
 		}),
 	},
+	displayName = T(548200000001, "Hyena Pack"),
 	group = "Mod_LCFYA Custom Squads",
 	id = "Hyenas",
 })
