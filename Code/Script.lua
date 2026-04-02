@@ -26,12 +26,42 @@ local rng_seed = "[LCFYA] "
 
 -- Define possible attacks
 local attack_configurations = {
-    -- CAMP SAVANE
+    -- Outposts
     {
+        -- Fort L'Eau Bleu
+        name = "Fort L'Eau Bleu (H4)",
+        source = "H4",
+        group = "H4",
+        targets = {
+            "H3", "I2", "I3", -- Ernie Island
+            "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", -- Camp Savane
+            "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", -- Camp Grand Prix
+            "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11", -- Camp La Barriere
+        },
+        squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "H4",
+            }),
+            PlaceObj('QuestIsTCEState', {
+                Prop = "TCE_SwitchGuardpostAttackSquads",
+                QuestId = "04_Betrayal",
+                Value = "done",
+            }),
+            PlaceObj('QuestIsVariableBool', {
+                QuestId = "05_TakeDownCorazon",
+                Vars = set_neg("Completed"),
+            }),
+        },
+    },
+    {
+        -- Camp Savane
         name = "Camp Savane (F7)",
         source = "F7",
         group = "F7",
-        targets = { "B2", "B3", "C3", "C4", "D4", "E4", "E5", "F5", "F6", "G7", "H6", "I7", "I8", },
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8" },
         squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
@@ -44,180 +74,11 @@ local attack_configurations = {
         },
     },
     {
-        name = "Camp Savane (Lure Sectors)",
-        source = "F7",
-        group = "F7",
-        targets = { "E7", "E8", "F8", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "F7",
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('GuardpostObjectiveDone', {
-                        GuardpostObjective = "BaitOutWithActivity",
-                    }),
-                    PlaceObj('QuestIsTCEState', {
-                        Prop = "TCE_SwitchGuardpostAttackSquads",
-                        QuestId = "04_Betrayal",
-                        Value = "done",
-                    }),
-                },
-            }),
-        },
-    },
-    {
-        name = "Camp Savane (Water Well)",
-        source = "F7",
-        group = "F7",
-        targets = { "G6", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "F7",
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('GuardpostObjectiveDone', {
-                        GuardpostObjective = "WaterWell",
-                    }),
-                    PlaceObj('QuestIsTCEState', {
-                        Prop = "TCE_SwitchGuardpostAttackSquads",
-                        QuestId = "04_Betrayal",
-                        Value = "done",
-                    }),
-                },
-            }),
-        },
-    },
-    {
-        name = "Camp Savane (Flay Quest)",
-        source = "F7",
-        group = "F7",
-        targets = { "B4", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "F7",
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Completed"),
-                    }),
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Failed"),
-                    }),
-                },
-            }),
-        },
-    },
-    {
-        name = "Camp Savane (Guards & Flay)",
-        source = "F7",
-        group = "F7",
-        targets = { "E6", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "F7",
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Completed"),
-                    }),
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Failed"),
-                    }),
-                },
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('GuardpostObjectiveDone', {
-                        GuardpostObjective = "BaitOutWithActivity",
-                    }),
-                    PlaceObj('QuestIsTCEState', {
-                        Prop = "TCE_SwitchGuardpostAttackSquads",
-                        QuestId = "04_Betrayal",
-                        Value = "done",
-                    }),
-                },
-            }),
-        },
-    },
-    -- CAMP GRAND PRIX
-    {
-        name = "Camp Grand Prix (D10)",
-        source = "D10",
-        group = "D10",
-        targets = { "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", },
-        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
-        squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "D10",
-            }),
-        },
-    },
-    {
-        name = "Camp Grand Prix (Flay Quest)",
-        source = "D10",
-        group = "D10",
-        targets = { "C6", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Ordnance_Easy", },
-        squads_strong = { "LegionAttackers_Marksmen_Hard", "LegionAttackers_Ordnance_Hard", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "D10",
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Completed"),
-                    }),
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Failed"),
-                    }),
-                },
-            }),
-        },
-    },
-    -- CAMP LA BARRIERE
-    {  
-        name = "Camp La Barriere (G10)",
+        -- Camp La Barrière
+        name = "Camp La Barrière (G10)",
         source = "G10",
         group = "G10",
-        targets = { "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11", },
+        targets = { "F9", "F10", "F11", "F12", "G9", "G11", "G12", "H10", "H11", "I10", "I11", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11" },
         squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Ordnance_Easy", "LegionAttackers_Shock_Easy", },
         squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Ordnance_Hard", "LegionAttackers_Shock_Hard", },
         endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
@@ -230,11 +91,28 @@ local attack_configurations = {
         },
     },
     {
-        -- Camp Du Crocodile
-        name = "Camp Du Crocodile (H14)",
+        --Camp Grand Prix
+        name = "Camp Grand Prix (D10)",
+        source = "D10",
+        group = "D10",
+        targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13", "D9", "D11", "D12", "E10", "E11", "E12" },
+        squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
+        squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard", },
+        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
+        endgame_squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "D10",
+            }),
+        },
+    },
+    {
+        -- Camp du Crocodile
+        name = "Camp du Crocodile (H14)",
         source = "H14",
         group = "H14",
-        targets = { "G12", "G13", "G14", "G15", "H11", "H13", "H15", "H16", "I11", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15", },
+        targets = { "G13", "G14", "G15", "H13", "H15", "H16", "I12", "I13", "I16", "J12", "J16", "K12", "K13", "K14", "K15" },
         squads = { "LegionAttackers_Balanced_Easy", "LegionAttackers_Shock_Easy", },
         squads_strong = { "LegionAttackers_Balanced_Hard", "LegionAttackers_Shock_Hard", },
         endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
@@ -247,28 +125,11 @@ local attack_configurations = {
         },
     },
     {
-        -- Camp Bien Chien
-        name = "Camp Bien Chien (F19)",
-        source = "F19",
-        group = "F19",
-        targets = { "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20", },
-        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
-        squads_strong = { "LegionAttackers_Shock_Hard", "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard", },
-        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
-        endgame_squads_strong = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "F19",
-            }),
-        },
-    },
-    {
         -- Camp Chien Sauvage
         name = "Camp Chien Sauvage (E16)",
         source = "E16",
         group = "E16",
-        targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15", },
+        targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15" },
         squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Ordnance_Easy", },
         squads_strong = { "LegionAttackers_Shock_Hard", "LegionAttackers_Ordnance_Hard", },
         endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
@@ -281,11 +142,28 @@ local attack_configurations = {
         },
     },
     {
+        -- Camp Bien Chien
+        name = "Camp Bien Chien (F19)",
+        source = "F19",
+        group = "F19",
+        targets = { "E20", "F20", "G19", "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20" },
+        squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", "LegionAttackers_Marksmen_Easy", },
+        squads_strong = { "LegionAttackers_Shock_Hard", "LegionAttackers_Balanced_Hard", "LegionAttackers_Marksmen_Hard", },
+        endgame_squads = { "ArmyAttackers_Balanced_Easy", "ArmyAttackers_Shock_Easy", "ArmyAttackers_Siege_Easy", },
+        endgame_squads_strong = { "ArmyAttackers_Balanced_Hard", "ArmyAttackers_Shock_Hard", "ArmyAttackers_Siege_Hard", },
+        conditions = {
+            PlaceObj('SectorCheckOwner', {
+                Negate = true,
+                sector_id = "F19",
+            }),
+        },
+    },
+    {
         -- The Eagle's Nest
         name = "The Eagle's Nest (A20)",
         source = "A20",
         group = "A20",
-        targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20", },
+        targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20" },
         squads = { "LegionAttackers_Shock_Easy", "LegionAttackers_Balanced_Easy", },
         squads_strong = { "LegionAttackers_Ordnance_Hard", "LegionAttackers_Marksmen_Hard", },
         conditions = {
@@ -327,160 +205,96 @@ local attack_configurations = {
             }),
         },
     },
+
+    -- Wilderness Regions
     {
-        -- Fort L'Eau Bleu
-        name = "Fort L'Eau Bleu (H4)",
-        source = "H4",
-        group = "H4",
-        targets = {
-            "H3", "I2", "I3", -- Ernie Island
-            "B2", "B3", "B4", "C3", "C4", "D4", "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", -- Camp Savane
-            "A9", "A10", "A11", "B5", "B8", "B9", "B10", "C6", "C9", "C10", "C11", "C12", "C13", "D5", "D6", "D9", "D11", -- Camp Grand Prix
-            "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "H10", "I10", "J8", "J9", "J10", "J11", "K11", "L7", "L10", "L11", -- Camp La Barriere
-        },
-        squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy", },
-        squads_strong = { "AdonisAttackers_Demolitions_Hard", "AdonisAttackers_ShockAttack_Hard", "AdonisAttackers_SpecOps_Hard", },
-        conditions = {
-            PlaceObj('SectorCheckOwner', {
-                Negate = true,
-                sector_id = "H4",
-            }),
-            PlaceObj('QuestIsTCEState', {
-                Prop = "TCE_SwitchGuardpostAttackSquads",
-                QuestId = "04_Betrayal",
-                Value = "done",
-            }),
-            PlaceObj('QuestIsVariableBool', {
-                QuestId = "05_TakeDownCorazon",
-                Vars = set_neg("Completed"),
-            }),
-        },
+        -- Barrens
+        name = "Barrens",
+        group = "Barrens",
+        targets = { "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20" },
+        squads = {  },
+        endgame_squads = {  },
     },
     {
-        -- Savanna North and South Wilderness
-        name = "Savanna Wilderness",
-        group = "Savanna",
-        targets = { "B3", "B5", "C4", "D4", "D5", "E4", "F6", "G7", "H6", "I7", "I8", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
+        -- Cursed Forest
+        name = "Cursed Forest",
+        group = "CursedForest",
+        targets = { "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15" },
+        squads = {  },
+        endgame_squads = {  },
     },
     {
-        -- Savanna 'Lure Guards' Sectors
-        name = "Savanna Wilderness (Camp Savane Lure)",
-        group = "Savanna",
-        targets = { "E7", "E8", "F8", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
-        conditions = {
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('GuardpostObjectiveDone', {
-                        GuardpostObjective = "BaitOutWithActivity",
-                    }),
-                    PlaceObj('SectorCheckOwner', {
-                        sector_id = "F7",
-                    }),
-                    PlaceObj('QuestIsTCEState', {
-                        Prop = "TCE_SwitchGuardpostAttackSquads",
-                        QuestId = "04_Betrayal",
-                        Value = "done",
-                    }),
-                },
-            }),
-        },
+        -- East Swamp
+        name = "East Swamp",
+        group = "EastSwamp",
+        targets = { "E20", "F20", "G19" },
+        squads = {  },
+        endgame_squads = {  },
     },
     {
-        -- Savanna WaterWell
-        name = "Savanna Wilderness (Camp Savane water well)",
-        group = "Savanna",
-        targets = { "G6", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
-        conditions = {
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('GuardpostObjectiveDone', {
-                        GuardpostObjective = "WaterWell",
-                    }),
-                    PlaceObj('SectorCheckOwner', {
-                        sector_id = "F7",
-                    }),
-                    PlaceObj('QuestIsTCEState', {
-                        Prop = "TCE_SwitchGuardpostAttackSquads",
-                        QuestId = "04_Betrayal",
-                        Value = "done",
-                    }),
-                },
-            }),
-        },
+        -- Erny
+        name = "Erny",
+        group = "Erny",
+        targets = { "H3", "I2", "I3" },
+        squads = {  },
+        endgame_squads = {  },
     },
     {
-        -- Savanna Flay Quest
-        name = "Savanna Wilderness (Flay Quest)",
-        group = "Savanna",
-        targets = { "B4", "C6", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
-        conditions = {
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Completed"),
-                    }),
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Failed"),
-                    }),
-                },
-            }),
-        },
+        -- Farmland
+        name = "Farmland",
+        group = "Farmland",
+        targets = { "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20" },
+        squads = {  },
+        endgame_squads = {  },
     },
     {
-        -- Savanna E6
-        name = "Savanna Wilderness (E6 double check)",
-        group = "Savanna",
-        targets = { "E6", },
-        squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-        endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
-        conditions = {
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Completed"),
-                    }),
-                    PlaceObj('QuestIsVariableBool', {
-                        QuestId = "HunterHunted",
-                        Vars = set("Failed"),
-                    }),
-                },
-            }),
-            PlaceObj('CheckOR', {
-                Conditions = {
-                    PlaceObj('GuardpostObjectiveDone', {
-                        GuardpostObjective = "BaitOutWithActivity",
-                    }),
-                    PlaceObj('SectorCheckOwner', {
-                        sector_id = "F7",
-                    }),
-                    PlaceObj('QuestIsTCEState', {
-                        Prop = "TCE_SwitchGuardpostAttackSquads",
-                        QuestId = "04_Betrayal",
-                        Value = "done",
-                    }),
-                },
-            }),
-        },
+        -- Great Forest
+        name = "Great Forest",
+        group = "GreatForest",
+        targets = { "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12" },
+        squads = {  },
+        endgame_squads = {  },
     },
-    -- {
-    --     -- Savanna North and South Wilderness
-    --     name = "Great Forest Wilderness",
-    --     group = "Great Forest",
-    --     targets = {  },
-    --     squads = { "LegionAttackers_Marksmen_Easy", "LegionAttackers_Balanced_Easy", "Hyenas", },
-    --     endgame_squads = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_SpecOps_Easy", "Hyenas", },
-    -- },
+    {
+        -- Highlands
+        name = "Highlands",
+        group = "Highlands",
+        targets = { "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13" },
+        squads = {  },
+        endgame_squads = {  },
+    },
+    {
+        -- Savannah North
+        name = "Savannah North",
+        group = "SavannahNorth",
+        targets = { "B2", "B3", "B4", "B5", "C3", "C4", "C5", "C6", "D4", "D5", "D6", "D9" },
+        squads = {  },
+        endgame_squads = {  },
+    },
+    {
+        -- Savannah South
+        name = "Savannah South",
+        group = "SavannahSouth",
+        targets = { "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8" },
+        squads = {  },
+        endgame_squads = {  },
+    },
+    {
+        -- South Jungle
+        name = "South Jungle",
+        group = "SouthJungle",
+        targets = { "J9", "J10", "J11", "J12", "K11", "K12", "K13", "K14", "K15", "L7", "L10", "L11" },
+        squads = {  },
+        endgame_squads = {  },
+    },
+    {
+        -- Wetlands
+        name = "Wetlands",
+        group = "Wetlands",
+        targets = { "G14", "G15", "H13", "H15", "H16", "I13", "I16", "J16" },
+        squads = {  },
+        endgame_squads = {  },
+    },
 }
 
 --- Converts a floor-calculated day number into a formatted date string.
