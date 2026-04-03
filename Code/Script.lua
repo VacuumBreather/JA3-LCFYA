@@ -125,6 +125,12 @@ local function IsGiven(quest_id)
     return IsTrue(quest_id, "Given")
 end
 
+-- Helper to check if a quest has not yet been given to the player.
+-- Returns a QuestIsVariableBool object.
+local function IsNotGiven(quest_id)
+    return IsFalse(quest_id, "Given")
+end
+
 -- Combines multiple conditions into a single logical "OR" check.
 -- Returns a CheckOR object where if any condition is met, the whole object evaluates to true.
 local function AnyOf(...)
@@ -143,6 +149,12 @@ local function IsTCEState(quest_id, prop, value)
     return PlaceObj('QuestIsTCEState', { QuestId = quest_id, Prop = prop, Value = value or "done" })
 end
 
+-- Helper to check if a specific TCE state is NOT a certain value (default: not "done").
+-- Returns a QuestIsTCEState object with the Negate property set to true.
+local function IsNotTCEState(quest_id, prop, value)
+    return PlaceObj('QuestIsTCEState', { QuestId = quest_id, Prop = prop, Value = value or "done", Negate = true })
+end
+
 -- Helper to check if the endgame phase has started.
 -- This is defined by the TCE_SwitchGuardpostAttackSquads event in the '04_Betrayal' quest.
 local function IsEndgame()
@@ -153,6 +165,18 @@ end
 -- Returns a GroupIsDead object.
 local function IsGroupDead(group_id)
     return PlaceObj('GroupIsDead', { Group = group_id, })
+end
+
+-- Helper to check if a custom quest related squad has been defeated.
+-- Returns a SquadDefeated object.
+local function IsSquadDefeated(squad_id)
+    return PlaceObj('SquadDefeated', { custom_squad_id = squad_id, })
+end
+
+-- Helper to check if an objective to lower an outpost's guard strength has been completed.
+-- Returns a GuardpostObjectiveDone object.
+local function IsGuardpostObjectiveDone(objective_id)
+    return PlaceObj('GuardpostObjectiveDone', { GuardpostObjective = objective_id, })
 end
 
 -- Helper to check if Flay's quest has reached a resolved state (dead, recruited, etc.)
@@ -192,28 +216,34 @@ local sector_quest_conditions = {
     -- Savannah North
     ["B2"] = {},
     ["B3"] = {},
-    ["B4"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()) },
+    ["B4"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()), },
     ["B5"] = {},
-    ["C3"] = {}, -- LuckyVeinard banter is already protected from conflict
+    ["C3"] = {},
     ["C4"] = {},
-    ["C5"] = { AnyOf(IsFalse("PantagruelDramas", "BrothelAbusers"), IsGroupDead("AbuserPoacher_Main"), IsCompleted("NeverHitAGirl")) },
-    ["C6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()) },
+    ["C5"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserPoacher_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
+    ["C6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()), },
     ["D4"] = {},
     ["D5"] = {},
-    ["D6"] = { AnyOf(IsFalse("PantagruelDramas", "BrothelAbusers"), IsGroupDead("AbuserOutskirts_Main"), IsCompleted("NeverHitAGirl")) },
-    ["D9"] = { AnyOf(IsCompletedOrFailed("RefugeeBlues"), IsTrue("RefugeeBlues", "ClaudetteSaved"), IsTrue("RefugeeBlues", "ClaudetteDead")) },
+    ["D6"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserOutskirts_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
+    ["D9"] = { AnyOf(IsCompletedOrFailed("RefugeeBlues"), IsTrue("RefugeeBlues", "ClaudetteSaved"), IsTrue("RefugeeBlues", "ClaudetteDead")), },
 
     -- Savannah South - "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8"
     ["E4"] = {},
-    ["E5"] = { IsCompleted("MiddleOfXWhere") },
-    ["E6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()) },
-    ["E7"] = { IsCompleted("PantagruelDramas"), IsCompleted("PantagruelLostAndFound") },
-    ["E8"] = { IsCompleted("ReduceSavannaCampStrength") },
-    ["F5"] = { IsCompleted("PantagruelDramas"), IsCompleted("ReduceSavannaCampStrength") },
+    ["E5"] = {},
+    ["E6"] = {
+        AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")),
+        AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()),
+    },
+    ["E7"] = {
+        AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")),
+        AnyOf(IsCompletedOrFailed("PantagruelDramas"), IsNotTCEState("PantagruelDramas", "TCE_ChimurengaEnemySquad"), IsSquadDefeated("ChimurengaEnemySquad_Dead")),
+    },
+    ["E8"] = { AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")), },
+    ["F5"] = {},
     ["F6"] = {},
-    ["F8"] = { IsCompleted("ReduceSavannaCampStrength") },
-    ["G6"] = { IsCompleted("ReduceSavannaCampStrength") },
-    ["G7"] = { IsCompleted("ReduceSavannaCampStrength") },
+    ["F8"] = { AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")), },
+    ["G6"] = { IsGuardpostObjectiveDone("WaterWell"), },
+    ["G7"] = {},
     ["H6"] = {},
     ["I7"] = {},
     ["I8"] = {},
