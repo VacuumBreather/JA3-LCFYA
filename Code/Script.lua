@@ -167,6 +167,26 @@ local function IsFlayResolved()
     )
 end
 
+-- Helper to check if a zombie outbreak is active in the Sanatorium.
+-- Returns true if the Mangel timer has been given and the quest is neither completed nor failed.
+local function IsZombieOutbreakActive()
+    local quest = QuestGetState("Sanatorium")
+    return quest and quest.MangelTimerGiven and not (quest.Completed or quest.Failed)
+end
+
+-- Merges two arrays (t1 and t2) into a new table.
+-- Returns a new table containing elements from t1 followed by elements from t2.
+local function ConcatTables(t1, t2)
+    local result = {}
+    for _, v in ipairs(t1) do
+        result[#result + 1] = v
+    end
+    for _, v in ipairs(t2) do
+        result[#result + 1] = v
+    end
+    return result
+end
+
 -- Sector to Quest Safety Conditions Lookup Table
 local sector_quest_conditions = {
     -- Savannah North
@@ -271,31 +291,6 @@ local sector_quest_conditions = {
     ["I2"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
     ["I3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
 }
-
--- Evaluates whether an sector is safe to be a target for an attack based on quest progress.
--- Uses the sector_quest_conditions lookup table to check specific quest completion requirements.
--- This prevents attacks from disrupting active quest-related sectors or scripted events.
-local function IsSectorQuestSafe(sector_id)
-    local conditions = sector_quest_conditions[sector_id]
-    if not conditions or #conditions == 0 then
-        return true
-    end
-
-    return EvalConditionList(conditions)
-end
-
--- Merges two arrays (t1 and t2) into a new table.
--- Returns a new table containing elements from t1 followed by elements from t2.
-local function ConcatTables(t1, t2)
-    local result = {}
-    for _, v in ipairs(t1) do
-        result[#result + 1] = v
-    end
-    for _, v in ipairs(t2) do
-        result[#result + 1] = v
-    end
-    return result
-end
 
 -- Shared squad lists to reduce repetition
 local squads_adonis_easy = { "AdonisAttackers_ShockAttack_Easy", "AdonisAttackers_Demolitions_Easy", "AdonisAttackers_SpecOps_Easy" }
@@ -587,11 +582,16 @@ local function PickTargets(config)
     end
 end
 
--- Helper to check if a zombie outbreak is active in the Sanatorium.
--- Returns true if the Mangel timer has been given and the quest is neither completed nor failed.
-local function IsZombieOutbreakActive()
-    local quest = QuestGetState("Sanatorium")
-    return quest and quest.MangelTimerGiven and not (quest.Completed or quest.Failed)
+-- Evaluates whether an sector is safe to be a target for an attack based on quest progress.
+-- Uses the sector_quest_conditions lookup table to check specific quest completion requirements.
+-- This prevents attacks from disrupting active quest-related sectors or scripted events.
+local function IsSectorQuestSafe(sector_id)
+    local conditions = sector_quest_conditions[sector_id]
+    if not conditions or #conditions == 0 then
+        return true
+    end
+
+    return EvalConditionList(conditions)
 end
 
 -- Selects the appropriate enemy squad for an attack based on world state.
