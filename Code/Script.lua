@@ -281,7 +281,8 @@ local sector_quest_conditions = {
     ["H16"] = { IsCompleted("Sanatorium") },
 
     -- Cursed Forest - "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15"
-    ["C15"] = {}, ["E14"] = {},
+    ["C15"] = {},
+    ["E14"] = {},
     ["D15"] = { IsCompleted("ReduceRiverCampStrength") },
     ["C14"] = { IsCompleted("CursedForestSideQuests") },
     ["C16"] = { IsCompleted("CursedForestSideQuests") },
@@ -294,32 +295,38 @@ local sector_quest_conditions = {
     ["D20"] = { IsCompleted("CharonsBoat") },
 
     -- East Swamp - "E20", "F20", "G19"
-    -- Farmland - "I20", "J18", "J19", "J20", "K17", "K18", "K19", "K20", "L17", "L19", "L20"
-    -- Farmland / East Swamp / Ted
-    ["F20"] = {}, ["G19"] = {}, ["I20"] = {}, ["L20"] = {},
     ["E20"] = { IsCompleted("ReduceBienChienCampStrength") },
-    ["J19"] = { IsCompleted("Ted") },
-    ["J20"] = { IsCompleted("Ted") },
-    ["K17"] = { IsCompleted("Ted") },
-    ["K18"] = { IsCompleted("Ted") },
-    ["K19"] = { IsCompleted("Ted") },
-    ["L19"] = { IsCompleted("Ted") },
-    ["J18"] = { IsCompleted("Ted") }, -- Farmland Ted targets
-    ["K20"] = { IsCompleted("Ted") },
-    ["L17"] = { IsCompleted("Ted") },
+    ["F20"] = {},
+    ["G19"] = {},
 
-    -- Barrens / Eagle's Nest - "A16", "A17", "A18", "A19", "B16", "B17", "B18", "B19", "B20"
-    ["A16"] = {}, ["A17"] = {}, ["A19"] = {}, ["B17"] = {},
-    ["A18"] = { IsCompleted("RescueBiff") },
-    ["B16"] = { IsCompleted("RescueBiff") },
-    ["B18"] = { IsCompleted("RescueBiff") },
-    ["B19"] = { IsCompleted("RescueBiff") },
-    ["B20"] = { IsCompleted("RescueBiff") },
+    -- Farmland
+    ["I20"] = {},
+    ["J18"] = { IsCompletedOrFailed("Witch") },
+    ["J19"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
+    ["J20"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
+    ["K17"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
+    ["K18"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
+    ["K19"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
+    ["K20"] = {},
+    ["L17"] = {},
+    ["L19"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
+    ["L20"] = {},
 
-    -- Ernie - "H3", "I2", "I3"
-    ["H3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
-    ["I2"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
-    ["I3"] = { IsCompleted("ErnieSideQuests"), IsCompleted("04_Betrayal") },
+    -- Barrens / Eagle's Nest
+    ["A16"] = {},
+    ["A17"] = {},
+    ["A18"] = {},
+    ["A19"] = {},
+    ["B16"] = { AnyOf(IsCompletedOrFailed("RescueBiff"), IsFalse("RescueBiff", "MajorAttackStarted"), IsSquadDefeated("SquadToAttackBif")), },
+    ["B17"] = {},
+    ["B18"] = {},
+    ["B19"] = {},
+    ["B20"] = {},
+
+    -- Ernie
+    ["H3"] = { IsEndgame() },
+    ["I2"] = { IsEndgame() },
+    ["I3"] = { IsEndgame() },
 }
 
 -- Shared squad lists to reduce repetition
