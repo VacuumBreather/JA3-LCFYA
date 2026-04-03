@@ -293,19 +293,12 @@ local sector_quest_conditions = {
     ["I16"] = {},
     ["J16"] = {},
 
-    -- Cursed Forest - "C14", "C15", "C16", "D13", "D14", "D15", "D16", "D19", "D20", "E13", "E14", "E15"
-    ["C14"] = { IsCompleted("CursedForestSideQuests") },
-    ["C15"] = {},
-    ["C16"] = { IsCompleted("CursedForestSideQuests") },
-    ["D13"] = { IsCompleted("CursedForestSideQuests") },
-    ["D14"] = { IsCompleted("CursedForestSideQuests") },
-    ["D15"] = { IsCompleted("ReduceRiverCampStrength") },
-    ["D16"] = { IsCompleted("CursedForestSideQuests") },
-    ["D19"] = { IsCompleted("CharonsBoat") },
-    ["D20"] = { IsCompleted("CharonsBoat") },
-    ["E13"] = { IsCompleted("CursedForestSideQuests") },
-    ["E14"] = {},
-    ["E15"] = { IsCompleted("CursedForestSideQuests") },
+    -- Cursed Forest
+    ["C14"] = {}, ["C15"] = {}, ["C16"] = {}, ["D13"] = {}, ["D16"] = {}, ["D20"] = {}, ["E13"] = {}, ["E14"] = {},
+    ["D14"] = { IsGroupDead("LegionMale_TeaParty"), },
+    ["D15"] = { IsGuardpostObjectiveDone("AlphaHyena") },
+    ["D19"] = { AnyOf(IsFalse("CharonsBoat", "Boat_OperationCompleted"), IsGroupDead("Floaters"), IsCompleted("CharonsBoat")), },
+    ["E15"] = { IsGuardpostObjectiveDone("Effigies"), },
 
     -- East Swamp
     ["F20"] = {},
