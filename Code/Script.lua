@@ -176,10 +176,25 @@ local function HasBanterNotPlayed(banter_id)
     })
 end
 
--- Helper to check if a group of NPCs is dead.
--- Returns a GroupIsDead object.
-local function IsGroupDead(group_id)
-    return PlaceObj('GroupIsDead', { Group = group_id, })
+-- Helper to check if a group is dead in a SPECIFIC sector.
+-- This bypasses the engine's reliance on the 'current' sector.
+local function IsGroupDeadInSector(group_id, sector_id)
+    local obj = PlaceObj('GroupIsDead', { Group = group_id })
+    -- We override the __eval method for this specific instance
+    obj.__eval = function(self)
+        local deadGroups = DeadGroupsInSectors[sector_id]
+        local gameVarResult = deadGroups and deadGroups[self.Group]
+        
+        if gameVarResult then
+            if self.Mode == "any" then
+                return gameVarResult == "any" or gameVarResult == "all"
+            elseif self.Mode == "all" then
+                return gameVarResult == "all"
+            end
+        end
+        return false
+    end
+    return obj
 end
 
 -- Helper to check if a custom quest related squad has been defeated.
@@ -231,9 +246,9 @@ local sector_quest_conditions = {
     -- Savannah North
     ["B2"] = {}, ["B3"] = {}, ["B5"] = {}, ["C3"] = {}, ["C4"] = {}, ["D4"] = {}, ["D5"] = {},
     ["B4"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()), },
-    ["C5"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserPoacher_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
+    ["C5"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDeadInSector("AbuserPoacher_Main", "C5"), IsCompletedOrFailed("NeverHitAGirl")), },
     ["C6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()), },
-    ["D6"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserOutskirts_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
+    ["D6"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDeadInSector("AbuserOutskirts_Main", "D6"), IsCompletedOrFailed("NeverHitAGirl")), },
     ["D9"] = { AnyOf(IsCompletedOrFailed("RefugeeBlues"), IsTrue("RefugeeBlues", "ClaudetteSaved"), IsTrue("RefugeeBlues", "ClaudetteDead")), },
 
     -- Savannah South
@@ -254,13 +269,13 @@ local sector_quest_conditions = {
     ["A9"] = {}, ["B8"] = {}, ["B10"] = {}, ["C9"] = {}, ["C11"] = {}, ["C12"] = {}, ["C13"] = {},
     ["A10"] = { AnyOf(IsFalse("MiddleOfNowhere", "MaraudersSpawned"), IsSquadDefeated("NowhereMarauders"), IsCompleted("MiddleOfNowhere")), },
     ["A11"] = { AnyOf(IsFailed("MiddleOfNowhere"), IsTrue("MiddleOfNowhere", "AttackRepelled")), },
-    ["B9"] = { IsGroupDead("PitStopGang"), },
+    ["B9"] = { IsGroupDeadInSector("PitStopGang", "B9"), },
     ["C10"] = { AnyOf(IsFalse("Landsbach", "MadMax"), IsCompletedOrFailed("Landsbach"), IsTrue("Landsbach", "Diesel"), IsTrue("Landsbach", "SiegfriedRetreat"), IsTCEState("Landsbach", "TCE_GuardsAlert")), },
 
     -- Great Forest / Sanatorium
     ["D11"] = {}, ["D12"] = {}, ["E10"] = {}, ["E11"] = {}, ["E12"] = {}, ["F10"] = {}, ["F11"] = {}, ["F12"] = {}, ["G9"] = {}, ["G11"] = {}, ["G12"] = {}, ["G13"] = {},
     ["H10"] = {}, ["H11"] = {}, ["I11"] = {},
-    ["F9"] = { AnyOf(HasBanterNotPlayed("Jungle_BusGang_initial"), IsGroupDead("BusGang")), },
+    ["F9"] = { AnyOf(HasBanterNotPlayed("Jungle_BusGang_initial"), IsGroupDeadInSector("BusGang", "F9")), },
     ["I10"] = { AnyOf(IsFalse("PiratesGold", "WritingsFound"), IsTrue("PiratesGold", "MapFound")), },
     ["I12"] = { AnyOf(IsFalse("Sanatorium", "CampHopeVisit_Phase3"), IsCompleted("Sanatorium")), },
 
@@ -273,9 +288,9 @@ local sector_quest_conditions = {
 
     -- Cursed Forest
     ["C14"] = {}, ["C15"] = {}, ["C16"] = {}, ["D13"] = {}, ["D16"] = {}, ["D20"] = {}, ["E13"] = {}, ["E14"] = {},
-    ["D14"] = { IsGroupDead("LegionMale_TeaParty"), },
+    ["D14"] = { IsGroupDeadInSector("LegionMale_TeaParty", "D14"), },
     ["D15"] = { IsGuardpostObjectiveDone("AlphaHyena") },
-    ["D19"] = { AnyOf(IsFalse("CharonsBoat", "Boat_OperationCompleted"), IsGroupDead("Floaters"), IsCompleted("CharonsBoat")), },
+    ["D19"] = { AnyOf(IsFalse("CharonsBoat", "Boat_OperationCompleted"), IsGroupDeadInSector("Floaters", "D19"), IsCompleted("CharonsBoat")), },
     ["E15"] = { IsGuardpostObjectiveDone("Effigies"), },
 
     -- East Swamp
@@ -699,34 +714,44 @@ function ShuffleTables()
     end
 end
 
--- Logs the status of various world and quest variables to the console for debugging.
--- This helps identify why certain attacks may or may not be triggering.
-function DumpQuestVariables()
-    print("[LCFYA]   » Checking quest status")
-
-    local guard_post_attack_squads_switched = EvalConditionList({ IsEndgame() })
-    local faucheux_taken_down = EvalConditionList({ IsCompleted("05_TakeDownFaucheux") })
-    local corazon_taken_down = EvalConditionList({ IsCompleted("05_TakeDownCorazon") })
-    local major_taken_down = EvalConditionList({ IsCompleted("05_TakeDownMajor") })
-
-    print(string.format("[LCFYA]     - Guard post switch done: %s", tostring(guard_post_attack_squads_switched)))
-    print(string.format("[LCFYA]     - TakeDownFaucheux completed: %s", tostring(faucheux_taken_down)))
-    print(string.format("[LCFYA]     - TakeDownCorazon completed: %s", tostring(corazon_taken_down)))
-    print(string.format("[LCFYA]     - TakeDownMajor completed: %s", tostring(major_taken_down)))
-
-    local sector_guard_quests = {
-        "ReduceCrossroadsCampStrength", "ReduceSavannaCampStrength", "HunterHunted", "TreasureHunting",
-        "Docks", "PantagruelDramas", "PantagruelLostAndFound", "MiddleOfXWhere", "RescueBiff",
-        "Landsbach", "ErnieSideQuests", "04_Betrayal", "ReduceBarrierCampStrength", "VoodooCult",
-        "FleatownGeneral", "PiratesGold", "Sanatorium", "MiddleOfNowhere", "ReduceCrocodileCampStrength",
-        "WetlandsSideQuests", "ReduceRiverCampStrength", "CursedForestSideQuests", "CharonsBoat",
-        "ReduceBienChienCampStrength", "Ted"
-    }
-
-    for _, quest_id in ipairs(sector_guard_quests) do
-        local completed = EvalConditionList({ IsCompleted(quest_id) })
-        print(string.format("[LCFYA]     - %s completed: %s", quest_id, tostring(completed)))
+-- Debug function to log the state of all sector quest conditions.
+-- This helps identify exactly which condition is blocking an attack on a specific sector.
+function LCFYA_DebugSectorConditions()
+    print("[LCFYA] [Debug] --- Sector Quest Conditions Report ---")
+    
+    -- Sort sector IDs for a cleaner, predictable log output
+    local sectors = table.keys(sector_quest_conditions)
+    table.sort(sectors)
+    
+    for _, sector_id in ipairs(sectors) do
+        local conditions = sector_quest_conditions[sector_id]
+        
+        -- Only log sectors that actually have defined conditions
+        if conditions and #conditions > 0 then
+            local overall_safe = IsSectorQuestSafe(sector_id)
+            print(string.format("[LCFYA] Sector %s: %s", sector_id, overall_safe and "SAFE (Attack Allowed)" or "BLOCKED (Quest Active)"))
+            
+            for i, cond in ipairs(conditions) do
+                local val = cond:Evaluate()
+                
+                -- Get a human-readable description from the engine
+                local description = _InternalTranslate(cond:GetEditorView())
+                
+                -- Log the individual condition result
+                print(string.format("[LCFYA]   [%d] [%s] %s", i, tostring(val):upper(), description))
+                
+                -- If it's a composite condition (AnyOf/AllOf), log the sub-conditions for deeper clarity
+                if IsKindOf(cond, "CheckOR") or IsKindOf(cond, "CheckAND") then
+                    for j, sub_cond in ipairs(cond.Conditions or empty_table) do
+                        local sub_val = sub_cond:Evaluate()
+                        local sub_desc = _InternalTranslate(sub_cond:GetEditorView())
+                        print(string.format("[LCFYA]       (%d.%d) [%s] %s", i, j, tostring(sub_val):upper(), sub_desc))
+                    end
+                end
+            end
+        end
     end
+    print("[LCFYA] [Debug] --- End of Report ---")
 end
 
 -- Primary logic loop that runs at the start of every in-game hour.
@@ -737,7 +762,7 @@ function OnMsg.NewHour()
 
     print(string.format("[LCFYA] Hourly check for attacks: %s - %02d:00", GetDateStringFromDay(today), ((Game.CampaignTime % const.Scale.day) / const.Scale.h)))
 
-    DumpQuestVariables()
+    LCFYA_DebugSectorConditions()
 
     for _, config in ipairs(attack_configurations) do
         if IsActive(config) then
