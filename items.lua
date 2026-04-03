@@ -79,7 +79,7 @@ return {
 		},
 	}),
 	PlaceObj('ModItemLocTable', {
-		'language', "English",
+		'language', "Any",
 		'filename', "Mod/cAPuUkg/Locls/English/ModStrings.csv",
 	}),
 	PlaceObj('ModItemLocTable', {

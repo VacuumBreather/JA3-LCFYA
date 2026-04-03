@@ -16,40 +16,40 @@ return PlaceObj('ModDef', {
 			language = "Any",
 		},
 		{
-			filename = "Mod/cAPuUkg/Locls/German/ModStrings.csv",
-			language = "Any",
+			filename = "Mod/cAPuUkg/Locls/Spanish/ModStrings.csv",
+			language = "Spanish",
 		},
 		{
-			filename = "Mod/cAPuUkg/Locls/Brazilian Portuguese/ModStrings.csv",
-			language = "Any",
+			filename = "Mod/cAPuUkg/Locls/German/ModStrings.csv",
+			language = "German",
 		},
 		{
 			filename = "Mod/cAPuUkg/Locls/French/ModStrings.csv",
-			language = "Any",
-		},
-		{
-			filename = "Mod/cAPuUkg/Locls/Indonesian/ModStrings.csv",
-			language = "Any",
+			language = "French",
 		},
 		{
 			filename = "Mod/cAPuUkg/Locls/Polish/ModStrings.csv",
-			language = "Any",
+			language = "Polish",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Brazilian Portuguese/ModStrings.csv",
+			language = "Brazilian",
+		},
+		{
+			filename = "Mod/cAPuUkg/Locls/Indonesian/ModStrings.csv",
+			language = "Indonesian",
 		},
 		{
 			filename = "Mod/cAPuUkg/Locls/Russian/ModStrings.csv",
-			language = "Any",
+			language = "Russian",
 		},
 		{
 			filename = "Mod/cAPuUkg/Locls/Simplified Chinese/ModStrings.csv",
-			language = "Any",
-		},
-		{
-			filename = "Mod/cAPuUkg/Locls/Spanish/ModStrings.csv",
-			language = "Any",
+			language = "Schinese",
 		},
 		{
 			filename = "Mod/cAPuUkg/Locls/Traditional Chinese/ModStrings.csv",
-			language = "Any",
+			language = "Tchinese",
 		},
 	},
 	'default_options', {
