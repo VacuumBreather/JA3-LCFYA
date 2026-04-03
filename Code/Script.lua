@@ -249,6 +249,7 @@ local sector_quest_conditions = {
     ["C13"] = {},
 
     -- Great Forest / Sanatorium / Fleatown - "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12"
+    -- Check ReduceBarrierCampStrength!!! (Likely irrelevant, H10, Fleatown and N-Night)
     ["D11"] = {},
     ["D12"] = {},
     ["E10"] = {},
@@ -262,7 +263,7 @@ local sector_quest_conditions = {
     ["G11"] = {},
     ["G12"] = {},
     ["G13"] = {},
-    ["H10"] = {},
+    ["H10"] = {}, -- Boat with explosives
     ["H11"] = {},
     ["I10"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
     ["I11"] = {},
