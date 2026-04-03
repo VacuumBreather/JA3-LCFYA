@@ -167,6 +167,15 @@ local function IsEndgame()
     return IsTCEState("04_Betrayal", "TCE_SwitchGuardpostAttackSquads")
 end
 
+-- Helper to check if a banter has not been played yet.
+-- Returns a BanterHasPlayed object.
+local function HasBanterNotPlayed(banter_id)
+    return PlaceObj('BanterHasPlayed', { 
+        Banters = { banter_id },
+        Negate = true 
+    })
+end
+
 -- Helper to check if a group of NPCs is dead.
 -- Returns a GroupIsDead object.
 local function IsGroupDead(group_id)
@@ -248,26 +257,12 @@ local sector_quest_conditions = {
     ["B9"] = { IsGroupDead("PitStopGang"), },
     ["C10"] = { AnyOf(IsFalse("Landsbach", "MadMax"), IsCompletedOrFailed("Landsbach"), IsTrue("Landsbach", "Diesel"), IsTrue("Landsbach", "SiegfriedRetreat"), IsTCEState("Landsbach", "TCE_GuardsAlert")), },
 
-    -- Great Forest / Sanatorium / Fleatown - "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12"
-    -- Check ReduceBarrierCampStrength!!! (Likely irrelevant, H10, Fleatown and N-Night)
-    ["D11"] = {},
-    ["D12"] = {},
-    ["E10"] = {},
-    ["E11"] = {},
-    ["E12"] = {},
-    ["F9"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") }, -- Bus Gang
-    ["F10"] = {},
-    ["F11"] = {},
-    ["F12"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
-    ["G9"] = {},
-    ["G11"] = {},
-    ["G12"] = {},
-    ["G13"] = {},
-    ["H10"] = {}, -- Boat with explosives
-    ["H11"] = {},
-    ["I10"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
-    ["I11"] = {},
-    ["I12"] = { IsCompleted("Sanatorium") },
+    -- Great Forest / Sanatorium
+    ["D11"] = {}, ["D12"] = {}, ["E10"] = {}, ["E11"] = {}, ["E12"] = {}, ["F10"] = {}, ["F11"] = {}, ["F12"] = {}, ["G9"] = {}, ["G11"] = {}, ["G12"] = {}, ["G13"] = {},
+    ["H10"] = {}, ["H11"] = {}, ["I11"] = {},
+    ["F9"] = { AnyOf(HasBanterNotPlayed("Jungle_BusGang_initial"), IsGroupDead("BusGang")), },
+    ["I10"] = { AnyOf(IsFalse("PiratesGold", "WritingsFound"), IsTrue("PiratesGold", "MapFound")), },
+    ["I12"] = { AnyOf(IsFalse("Sanatorium", "CampHopeVisit_Phase3"), IsCompleted("Sanatorium")), },
 
     -- South Jungle
     ["J9"] = {}, ["J10"] = {}, ["J11"] = {}, ["J12"] = {}, ["K11"] = {}, ["K12"] = {}, ["K13"] = {}, ["K14"] = {}, ["K15"] = {}, ["L7"] = {}, ["L10"] = {}, ["L11"] = {},
