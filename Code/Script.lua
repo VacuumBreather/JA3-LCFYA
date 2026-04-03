@@ -269,29 +269,12 @@ local sector_quest_conditions = {
     ["I11"] = {},
     ["I12"] = { IsCompleted("Sanatorium") },
 
-    -- South Jungle - "J9", "J10", "J11", "J12", "K11", "K12", "K13", "K14", "K15", "L7", "L10", "L11"
-    ["J9"] = {},
-    ["J10"] = {},
-    ["J11"] = { IsCompleted("Sanatorium") },
-    ["J12"] = {},
-    ["K11"] = {},
-    ["K12"] = {},
-    ["K13"] = {},
-    ["K14"] = { IsCompleted("Sanatorium") },
-    ["K15"] = { IsCompleted("Sanatorium"), IsCompleted("04_Betrayal") },
-    ["L7"] = {},
-    ["L10"] = {},
-    ["L11"] = {},
+    -- South Jungle
+    ["J9"] = {}, ["J10"] = {}, ["J11"] = {}, ["J12"] = {}, ["K11"] = {}, ["K12"] = {}, ["K13"] = {}, ["K14"] = {}, ["K15"] = {}, ["L7"] = {}, ["L10"] = {}, ["L11"] = {},
 
-    -- Wetlands - "G14", "G15", "H13", "H15", "H16", "I13", "I16", "J16"
-    ["G14"] = {},
-    ["G15"] = { IsCompleted("VoodooCult"), IsCompleted("WetlandsSideQuests") },
-    ["H13"] = { IsCompleted("ReduceCrocodileCampStrength") },
-    ["H15"] = { IsCompleted("VoodooCult"), IsCompleted("WetlandsSideQuests") },
-    ["H16"] = { IsCompleted("Sanatorium") },
-    ["I13"] = {},
-    ["I16"] = {},
-    ["J16"] = {},
+    -- Wetlands
+    ["G14"] = {}, ["G15"] = {}, ["H15"] = {}, ["H16"] = {}, ["I13"] = {}, ["I16"] = {}, ["J16"] = {},
+    ["H13"] = { AnyOf(IsTrue("ReduceCrocodileCampStrength", "InfectedReleased"), IsTrue("ReduceCrocodileCampStrength", "InfectedKilled"), IsGuardpostObjectiveDone("InfectedInvasion")), },
 
     -- Cursed Forest
     ["C14"] = {}, ["C15"] = {}, ["C16"] = {}, ["D13"] = {}, ["D16"] = {}, ["D20"] = {}, ["E13"] = {}, ["E14"] = {},
