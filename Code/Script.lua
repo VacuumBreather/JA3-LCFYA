@@ -214,22 +214,15 @@ end
 -- Sector to Quest Safety Conditions Lookup Table
 local sector_quest_conditions = {
     -- Savannah North
-    ["B2"] = {},
-    ["B3"] = {},
+    ["B2"] = {}, ["B3"] = {}, ["B5"] = {}, ["C3"] = {}, ["C4"] = {}, ["D4"] = {}, ["D5"] = {},
     ["B4"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()), },
-    ["B5"] = {},
-    ["C3"] = {},
-    ["C4"] = {},
     ["C5"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserPoacher_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
     ["C6"] = { AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()), },
-    ["D4"] = {},
-    ["D5"] = {},
     ["D6"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserOutskirts_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
     ["D9"] = { AnyOf(IsCompletedOrFailed("RefugeeBlues"), IsTrue("RefugeeBlues", "ClaudetteSaved"), IsTrue("RefugeeBlues", "ClaudetteDead")), },
 
     -- Savannah South
-    ["E4"] = {},
-    ["E5"] = {},
+    ["E4"] = {}, ["E5"] = {}, ["F5"] = {}, ["F6"] = {}, ["G7"] = {}, ["H6"] = {}, ["I7"] = {}, ["I8"] = {}, ["J8"] = {},
     ["E6"] = {
         AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")),
         AnyOf(IsFalse("HunterHunted", "FlaySpawned"), IsFlayResolved()),
@@ -239,15 +232,8 @@ local sector_quest_conditions = {
         AnyOf(IsCompletedOrFailed("PantagruelDramas"), IsNotTCEState("PantagruelDramas", "TCE_ChimurengaEnemySquad"), IsSquadDefeated("ChimurengaEnemySquad_Dead")),
     },
     ["E8"] = { AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")), },
-    ["F5"] = {},
-    ["F6"] = {},
     ["F8"] = { AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")), },
     ["G6"] = { IsGuardpostObjectiveDone("WaterWell"), },
-    ["G7"] = {},
-    ["H6"] = {},
-    ["I7"] = {},
-    ["I8"] = {},
-    ["J8"] = {},
 
     -- Highlands - "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13"
     ["B10"] = {}, ["C9"] = {}, ["C12"] = {}, ["C13"] = {},
@@ -300,28 +286,18 @@ local sector_quest_conditions = {
     ["G19"] = {},
 
     -- Farmland
-    ["I20"] = {},
+    ["I20"] = {}, ["K20"] = {}, ["L17"] = {}, ["L20"] = {},
     ["J18"] = { IsCompletedOrFailed("Witch") },
     ["J19"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
     ["J20"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
     ["K17"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
     ["K18"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
     ["K19"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
-    ["K20"] = {},
-    ["L17"] = {},
     ["L19"] = { AnyOf(IsFalse("Ted", "TedSpawn"), IsCompleted("Ted")), },
-    ["L20"] = {},
 
     -- Barrens / Eagle's Nest
-    ["A16"] = {},
-    ["A17"] = {},
-    ["A18"] = {},
-    ["A19"] = {},
+    ["A16"] = {}, ["A17"] = {}, ["A18"] = {}, ["A19"] = {}, ["B17"] = {}, ["B18"] = {}, ["B19"] = {}, ["B20"] = {},
     ["B16"] = { AnyOf(IsCompletedOrFailed("RescueBiff"), IsFalse("RescueBiff", "MajorAttackStarted"), IsSquadDefeated("SquadToAttackBif")), },
-    ["B17"] = {},
-    ["B18"] = {},
-    ["B19"] = {},
-    ["B20"] = {},
 
     -- Ernie
     ["H3"] = { IsEndgame() },
