@@ -170,9 +170,9 @@ end
 -- Helper to check if a banter has not been played yet.
 -- Returns a BanterHasPlayed object.
 local function HasBanterNotPlayed(banter_id)
-    return PlaceObj('BanterHasPlayed', { 
+    return PlaceObj('BanterHasPlayed', {
         Banters = { banter_id },
-        Negate = true 
+        Negate = true
     })
 end
 
@@ -184,7 +184,7 @@ local function IsGroupDeadInSector(group_id, sector_id)
     obj.__eval = function(self)
         local deadGroups = DeadGroupsInSectors[sector_id]
         local gameVarResult = deadGroups and deadGroups[self.Group]
-        
+
         if gameVarResult then
             if self.Mode == "any" then
                 return gameVarResult == "any" or gameVarResult == "all"
@@ -277,7 +277,7 @@ local sector_quest_conditions = {
     ["H10"] = {}, ["H11"] = {}, ["I11"] = {},
     ["F9"] = { AnyOf(HasBanterNotPlayed("Jungle_BusGang_initial"), IsGroupDeadInSector("BusGang", "F9")), },
     ["I10"] = { AnyOf(IsFalse("PiratesGold", "WritingsFound"), IsTrue("PiratesGold", "MapFound")), },
-    ["I12"] = { AnyOf(IsFalse("Sanatorium", "CampHopeVisit_Phase3"), IsCompleted("Sanatorium")), },
+    ["I12"] = { AnyOf(IsFalse("Sanatorium", "CampHopeVisit_Phase3"), IsCompleted("CampHope")), },
 
     -- South Jungle
     ["J9"] = {}, ["J10"] = {}, ["J11"] = {}, ["J12"] = {}, ["K11"] = {}, ["K12"] = {}, ["K13"] = {}, ["K14"] = {}, ["K15"] = {}, ["L7"] = {}, ["L10"] = {}, ["L11"] = {},
@@ -716,38 +716,68 @@ end
 
 -- Debug function to log the state of all sector quest conditions.
 -- This helps identify exactly which condition is blocking an attack on a specific sector.
-function LCFYA_DebugSectorConditions()
+-- Recursive helper to evaluate and describe conditions at any depth with negation support
+-- Recursive helper to evaluate and describe conditions at any depth with full negation support
+local function DebugSectorConditions()
     print("[LCFYA] [Debug] --- Sector Quest Conditions Report ---")
-    
-    -- Sort sector IDs for a cleaner, predictable log output
+
     local sectors = table.keys(sector_quest_conditions)
     table.sort(sectors)
-    
+
+    local function LogCondition(cond, depth, index_prefix)
+        local val = cond:Evaluate()
+        local class_name = cond.class
+        local id_str = cond.QuestId or cond.GuardpostObjective or cond.Group or cond.custom_squad_id or cond.Prop or "N/A"
+
+        -- Build the description string
+        local desc = ""
+        local negation_prefix = ""
+
+        if class_name == "QuestIsVariableBool" then
+            -- QuestIsVariableBool uses per-variable negation in the Vars table
+            local var_descs = {}
+            for var_name, var_state in sorted_pairs(cond.Vars) do
+                local prefix = (var_state == false) and "Not " or ""
+                table.insert(var_descs, string.format("%sQuest '%s' Var '%s'", prefix, id_str, var_name))
+            end
+            desc = table.concat(var_descs, " " .. (cond.Condition or "and") .. " ")
+        else
+            -- Standard classes use the .Negate property
+            if cond.Negate then negation_prefix = "Not " end
+
+            if class_name == "GuardpostObjectiveDone" then
+                desc = string.format("Objective '%s' is done", id_str)
+            elseif class_name == "GroupIsDead" then
+                desc = string.format("Group '%s' is dead", id_str)
+            elseif class_name == "QuestIsTCEState" then
+                desc = string.format("TCE '%s' (Quest: %s) is %s", cond.Prop, cond.QuestId, cond.Value)
+            elseif class_name == "BanterHasPlayed" then
+                desc = string.format("Banter '%s' played", (cond.Banters and cond.Banters[1]) or "N/A")
+            else
+                desc = string.format("%s: %s", class_name, id_str)
+            end
+        end
+
+        -- Print the line with proper indentation
+        local indent = string.rep("    ", depth)
+        print(string.format("[LCFYA] %s [%s] [%s] %s%s", indent, index_prefix, tostring(val):upper(), negation_prefix, desc))
+
+        -- Recurse into sub-conditions (AnyOf/AllOf)
+        if IsKindOf(cond, "CheckOR") or IsKindOf(cond, "CheckAND") then
+            for j, sub in ipairs(cond.Conditions or empty_table) do
+                LogCondition(sub, depth + 1, string.format("%s.%d", index_prefix, j))
+            end
+        end
+    end
+
     for _, sector_id in ipairs(sectors) do
         local conditions = sector_quest_conditions[sector_id]
-        
-        -- Only log sectors that actually have defined conditions
         if conditions and #conditions > 0 then
             local overall_safe = IsSectorQuestSafe(sector_id)
-            print(string.format("[LCFYA] Sector %s: %s", sector_id, overall_safe and "SAFE (Attack Allowed)" or "BLOCKED (Quest Active)"))
-            
+            print(string.format("[LCFYA] Sector %s: %s", sector_id, overall_safe and "SAFE" or "BLOCKED"))
+
             for i, cond in ipairs(conditions) do
-                local val = cond:Evaluate()
-                
-                -- Get a human-readable description from the engine
-                local description = _InternalTranslate(cond:GetEditorView())
-                
-                -- Log the individual condition result
-                print(string.format("[LCFYA]   [%d] [%s] %s", i, tostring(val):upper(), description))
-                
-                -- If it's a composite condition (AnyOf/AllOf), log the sub-conditions for deeper clarity
-                if IsKindOf(cond, "CheckOR") or IsKindOf(cond, "CheckAND") then
-                    for j, sub_cond in ipairs(cond.Conditions or empty_table) do
-                        local sub_val = sub_cond:Evaluate()
-                        local sub_desc = _InternalTranslate(sub_cond:GetEditorView())
-                        print(string.format("[LCFYA]       (%d.%d) [%s] %s", i, j, tostring(sub_val):upper(), sub_desc))
-                    end
-                end
+                LogCondition(cond, 1, tostring(i))
             end
         end
     end
@@ -762,7 +792,7 @@ function OnMsg.NewHour()
 
     print(string.format("[LCFYA] Hourly check for attacks: %s - %02d:00", GetDateStringFromDay(today), ((Game.CampaignTime % const.Scale.day) / const.Scale.h)))
 
-    LCFYA_DebugSectorConditions()
+    DebugSectorConditions()
 
     for _, config in ipairs(attack_configurations) do
         if IsActive(config) then
