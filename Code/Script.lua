@@ -280,10 +280,10 @@ local sector_quest_conditions = {
     ["D19"] = { IsCompleted("CharonsBoat") },
     ["D20"] = { IsCompleted("CharonsBoat") },
 
-    -- East Swamp - "E20", "F20", "G19"
-    ["E20"] = { IsCompleted("ReduceBienChienCampStrength") },
+    -- East Swamp
     ["F20"] = {},
-    ["G19"] = {},
+    ["E20"] = { IsGuardpostObjectiveDone("FreePrisoners"), },
+    ["G19"] = { IsGuardpostObjectiveDone("SlaversGroup"), },
 
     -- Farmland
     ["I20"] = {}, ["K20"] = {}, ["L17"] = {}, ["L20"] = {},
