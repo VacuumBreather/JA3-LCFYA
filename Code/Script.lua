@@ -592,7 +592,7 @@ end
 -- Clears the gv_LCFYA_LastAttackTimestamps table.
 -- Called when mod options are applied or a new campaign starts to reset attack timers.
 local function ResetTimestamps()
-    print("[LCFYA]   » Resetting last attack timestamps")
+    --print("[LCFYA]   » Resetting last attack timestamps")
     gv_LCFYA_LastAttackTimestamps = {}
 end
 
@@ -624,7 +624,7 @@ end
 -- Prioritizes zombie squads if the outbreak is active in a zombie-marked area.
 -- Otherwise, picks between easy/strong or standard/endgame squads based on player mine count and quest progress.
 local function PickAttackSquad(config)
-    print(string.format("[LCFYA]   » Picking attack squad for %s", config.name))
+    --print(string.format("[LCFYA]   » Picking attack squad for %s", config.name))
 
     -- Special case for zombie outbreaks
     if config.is_zombie_area and IsZombieOutbreakActive() then
@@ -634,13 +634,13 @@ local function PickAttackSquad(config)
     -- Endgame check
     local is_endgame = EvalConditionList({ IsEndgame() })
 
-    print(string.format("[LCFYA]     - Quest check - Betrayal occurred: %s", tostring(is_endgame)))
+    --print(string.format("[LCFYA]     - Quest check - Betrayal occurred: %s", tostring(is_endgame)))
 
     -- Scaling based on player progress (mines owned)
     local num_player_mines = gv_PlayerSectorCounts.Mine or 0
     local use_hard_enemies = num_player_mines > 2
 
-    print(string.format("[LCFYA]     - Player has %d mines - Using hard enemies: %s", num_player_mines, tostring(use_hard_enemies)))
+    --print(string.format("[LCFYA]     - Player has %d mines - Using hard enemies: %s", num_player_mines, tostring(use_hard_enemies)))
 
     local chosen_squad = false
 
@@ -663,7 +663,7 @@ local function PickAttackSquad(config)
         print("[LCFYA] [Warning] No valid squad chosen")
     end
 
-    print(string.format("[LCFYA]     - Picked squad '%s'", chosen_squad))
+    --print(string.format("[LCFYA]     - Picked squad '%s'", chosen_squad))
 
     return chosen_squad
 end
@@ -788,19 +788,34 @@ end
 -- Iterates through attack configurations, checks conditions, and rolls for attack success.
 -- If successful, it triggers a 'TriggerSquadAttack' effect targeting a player-occupied, quest-safe sector.
 function OnMsg.NewHour()
+    -- Check if at least one player squad is NOT traveling
+    local any_player_squad_idle = false
+
+    for _, squad in ipairs(g_SquadsArray) do
+        if (squad.Side == "player1" or squad.Side == "player2") and not IsSquadTravelling(squad) then
+            any_player_squad_idle = true
+            break
+        end
+    end
+
+    if not any_player_squad_idle then
+        --print("[LCFYA] Hourly check skipped: All player squads are currently traveling.")
+        return
+    end
+
     local today = GetCurrentCampaignDay()
 
-    print(string.format("[LCFYA] Hourly check for attacks: %s - %02d:00", GetDateStringFromDay(today), ((Game.CampaignTime % const.Scale.day) / const.Scale.h)))
+    --print(string.format("[LCFYA] Hourly check for attacks: %s - %02d:00", GetDateStringFromDay(today), ((Game.CampaignTime % const.Scale.day) / const.Scale.h)))
 
-    DebugSectorConditions()
+    --DebugSectorConditions()
 
     for _, config in ipairs(attack_configurations) do
         if IsActive(config) then
-            print(string.format("[LCFYA] Checking configuration for %s", config.name))
+            --print(string.format("[LCFYA] Checking configuration for %s", config.name))
 
             local can_attack = EvalConditionList(config.conditions)
 
-            print(string.format("[LCFYA]   » Can attack: %s", tostring(can_attack)))
+            --print(string.format("[LCFYA]   » Can attack: %s", tostring(can_attack)))
 
             if can_attack then
                 local valid_target = false
@@ -816,7 +831,7 @@ function OnMsg.NewHour()
                 end
 
                 if valid_target then
-                    print(string.format("[LCFYA]   » Valid target sector found: %s", valid_target))
+                    --print(string.format("[LCFYA]   » Valid target sector found: %s", valid_target))
 
                     -- Read the last timestamp from the persistent GameVar
                     local last_attack_timestamp = gv_LCFYA_LastAttackTimestamps[config.group] or -1
@@ -831,21 +846,21 @@ function OnMsg.NewHour()
                     -- The Core Check:
                     -- a) Cooldown check (Has enough time passed since the last attack?)
                     local current_cooldown = GetCooldown(config)
-                    print(string.format("[LCFYA]   » Last attack: %s - Today: %s - Cooldown: %d day(s)", GetDateStringFromDay(last_attack_timestamp), GetDateStringFromDay(today), current_cooldown))
+                    --print(string.format("[LCFYA]   » Last attack: %s - Today: %s - Cooldown: %d day(s)", GetDateStringFromDay(last_attack_timestamp), GetDateStringFromDay(today), current_cooldown))
                     local time_passed = (last_attack_timestamp < 0) or (today >= last_attack_timestamp + current_cooldown)
 
                     if time_passed then
-                        print("[LCFYA]   » Time check passed")
+                        --print("[LCFYA]   » Time check passed")
                         local config_rng_seed = rng_seed .. config.group
 
                         -- b) Probability check (Weighted hourly roll for daily probability)
                         local success = InteractionRand(10000, config_rng_seed) < GetHourlyThreshold(config)
 
                         if success then
-                            print("[LCFYA]   » Hourly threshold RNG check passed")
+                            --print("[LCFYA]   » Hourly threshold RNG check passed")
                             local attack_squad = PickAttackSquad(config)
                             if attack_squad then
-                                print(string.format("[LCFYA]   » Launching attack with '%s' from %s to %s", attack_squad, config.name, valid_target))
+                                --print(string.format("[LCFYA]   » Launching attack with '%s' from %s to %s", attack_squad, config.name, valid_target))
 
                                 -- Trigger the attack programmatically
                                 local effect = TriggerSquadAttack:new({
@@ -856,10 +871,10 @@ function OnMsg.NewHour()
                                 effect:__exec()
 
                                 -- Update timestamp and shuffle for variety
-                                print(string.format("[LCFYA]   » Setting last attack for %s to %s", config.group, GetDateStringFromDay(today)))
+                                --print(string.format("[LCFYA]   » Setting last attack for %s to %s", config.group, GetDateStringFromDay(today)))
                                 gv_LCFYA_LastAttackTimestamps[config.group] = today
 
-                                print(string.format("[LCFYA]   » Shuffling sector and squad tables for %s", config.group))
+                                --print(string.format("[LCFYA]   » Shuffling sector and squad tables for %s", config.group))
 
                                 table.shuffle(config.targets, config_rng_seed)
                                 table.shuffle(config.endgame_targets, config_rng_seed)
@@ -883,7 +898,7 @@ end
 function OnMsg.ApplyModOptions(id)
     if id ~= CurrentModId then return end
 
-    print("[LCFYA] Applying mod options")
+    --print("[LCFYA] Applying mod options")
 
     -- Reset the cooldowns to ensure new settings take effect immediately
     ResetTimestamps()
@@ -899,11 +914,11 @@ function OnMsg.ApplyModOptions(id)
         hourly_threshold = 93
     end
 
-    if daily_chance == "Off" then
-        print("[LCFYA]   » Outpost attacks: Disabled")
-    else
-        print(string.format("[LCFYA]   » Outpost Attacks: %s%% Daily Chance", daily_chance))
-    end
+    -- if daily_chance == "Off" then
+    --     print("[LCFYA]   » Outpost attacks: Disabled")
+    -- else
+    --     print(string.format("[LCFYA]   » Outpost Attacks: %s%% Daily Chance", daily_chance))
+    -- end
 
     -- Synchronize Wilderness attack settings
     local daily_chance_wild = CurrentModOptions and CurrentModOptions['options_chance_wild_lcfya'] or "10"
@@ -915,11 +930,11 @@ function OnMsg.ApplyModOptions(id)
         hourly_threshold_wild = 44
     end
 
-    if daily_chance_wild == "Off" then
-        print("[LCFYA]   » Wilderness attacks: Disabled")
-    else
-        print(string.format("[LCFYA]   » Wilderness Attacks: %s%% Daily Chance", daily_chance_wild))
-    end
+    -- if daily_chance_wild == "Off" then
+    --     print("[LCFYA]   » Wilderness attacks: Disabled")
+    -- else
+    --     print(string.format("[LCFYA]   » Wilderness Attacks: %s%% Daily Chance", daily_chance_wild))
+    -- end
 
     -- Update Cooldowns from options
     if CurrentModOptions then
@@ -929,23 +944,23 @@ function OnMsg.ApplyModOptions(id)
         local opt_wild = CurrentModOptions['options_cooldown_wild_lcfya']
         cooldown_wild = tonumber(opt_wild) or 2
 
-        print(string.format("[LCFYA]   » Minimum Cooldown: %d days (Outposts) / %d days (Wilderness)", cooldown, cooldown_wild))
+        --print(string.format("[LCFYA]   » Minimum Cooldown: %d days (Outposts) / %d days (Wilderness)", cooldown, cooldown_wild))
     end
 end
 
 -- Initializes attack state for a brand new campaign.
 function OnMsg.InitSessionCampaignObjects()
-    print("[LCFYA] New campaign started")
+    --print("[LCFYA] New campaign started")
     ResetTimestamps()
     ShuffleTables()
 end
 
 -- Validates persistent state and prepares target lists after loading a savegame.
 function OnMsg.LoadSessionData()
-    print("[LCFYA] Save game loaded")
+    --print("[LCFYA] Save game loaded")
     local today = GetCurrentCampaignDay()
 
-    print("[LCFYA]   » Performing sanity check on timestamps")
+    --print("[LCFYA]   » Performing sanity check on timestamps")
 
     for _, config in ipairs(attack_configurations) do
         -- Sanity check for timestamp in case a previous savegame leaked through or campaign time was manipulated
