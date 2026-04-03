@@ -137,6 +137,12 @@ local function AnyOf(...)
     return PlaceObj('CheckOR', { Conditions = { ... }, })
 end
 
+-- Combines multiple conditions into a single logical "AND" check.
+-- Returns a CheckAND object where if any condition is met, the whole object evaluates to true.
+local function AllOf(...)
+    return PlaceObj('CheckAND', { Conditions = { ... }, })
+end
+
 -- Helper to check if a quest is either completed or has failed.
 -- Returns a CheckOR object containing IsCompleted and IsFailed conditions.
 local function IsCompletedOrFailed(quest_id)
@@ -235,18 +241,12 @@ local sector_quest_conditions = {
     ["F8"] = { AnyOf(IsNotGiven("ReduceSavannaCampStrength"), IsGuardpostObjectiveDone("BaitOutWithActivity")), },
     ["G6"] = { IsGuardpostObjectiveDone("WaterWell"), },
 
-    -- Highlands - "A9", "A10", "A11", "B8", "B9", "B10", "C9", "C10", "C11", "C12", "C13"
-    ["A9"] = { IsCompleted("RescueBiff") },
-    ["A10"] = { IsCompleted("MiddleOfNowhere") },
-    ["A11"] = { IsCompleted("MiddleOfNowhere") },
-    ["B8"] = { IsCompleted("RescueBiff") },
-    ["B9"] = { IsCompleted("ReduceCrossroadsCampStrength") }, -- Pit Stop
-    ["B10"] = {},
-    ["C9"] = {},
-    ["C10"] = { IsCompleted("Landsbach") }, -- Mad Max
-    ["C11"] = { IsCompleted("Landsbach") }, -- Gas Station
-    ["C12"] = {},
-    ["C13"] = {},
+    -- Highlands
+    ["A9"] = {}, ["B8"] = {}, ["B10"] = {}, ["C9"] = {}, ["C11"] = {}, ["C12"] = {}, ["C13"] = {},
+    ["A10"] = { AnyOf(IsFalse("MiddleOfNowhere", "MaraudersSpawned"), IsSquadDefeated("NowhereMarauders"), IsCompleted("MiddleOfNowhere")), },
+    ["A11"] = { AnyOf(IsFailed("MiddleOfNowhere"), IsTrue("MiddleOfNowhere", "AttackRepelled")), },
+    ["B9"] = { IsGroupDead("PitStopGang"), },
+    ["C10"] = { AnyOf(IsFalse("Landsbach", "MadMax"), IsCompletedOrFailed("Landsbach"), IsTrue("Landsbach", "Diesel"), IsTrue("Landsbach", "SiegfriedRetreat"), IsTCEState("Landsbach", "TCE_GuardsAlert")), },
 
     -- Great Forest / Sanatorium / Fleatown - "D11", "D12", "E10", "E11", "E12", "F9", "F10", "F11", "F12", "G9", "G11", "G12", "G13", "H10", "H11", "I10", "I11", "I12"
     -- Check ReduceBarrierCampStrength!!! (Likely irrelevant, H10, Fleatown and N-Night)
@@ -255,7 +255,7 @@ local sector_quest_conditions = {
     ["E10"] = {},
     ["E11"] = {},
     ["E12"] = {},
-    ["F9"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
+    ["F9"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") }, -- Bus Gang
     ["F10"] = {},
     ["F11"] = {},
     ["F12"] = { IsCompleted("VoodooCult"), IsCompleted("FleatownGeneral"), IsCompleted("PiratesGold") },
@@ -303,9 +303,9 @@ local sector_quest_conditions = {
     ["B16"] = { AnyOf(IsCompletedOrFailed("RescueBiff"), IsFalse("RescueBiff", "MajorAttackStarted"), IsSquadDefeated("SquadToAttackBif")), },
 
     -- Ernie
-    ["H3"] = { IsEndgame() },
-    ["I2"] = { IsEndgame() },
-    ["I3"] = { IsEndgame() },
+    ["I2"] = { IsEndgame(), },
+    ["H3"] = { IsEndgame(), },
+    ["I3"] = { IsEndgame(), },
 }
 
 -- Shared squad lists to reduce repetition
