@@ -1,0 +1,9 @@
+id,text
+548200000001,Meute de hyènes
+548200000002,Chance quotidienne d'attaque d'avant-poste (%)
+548200000003,Par défaut 20
+548200000004,Jours entre les attaques (par avant-poste)
+548200000005,"1 signifie qu'une attaque est possible chaque jour, 2 signifie tous les 2 jours, etc."
+548200000006,Chance quotidienne d'attaque en milieu sauvage (%)
+548200000007,Par défaut 10
+548200000008,Jours entre les attaques en milieu sauvage (par région)

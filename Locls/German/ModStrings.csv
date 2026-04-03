@@ -1,0 +1,9 @@
+id,text
+548200000001,Hyänenrudel
+548200000002,Tägliche Chance auf einen Außenposten-Angriff (%)
+548200000003,Standard ist 20
+548200000004,Tage zwischen Angriffen (pro Außenposten)
+548200000005,"1 bedeutet, dass jeden Tag ein Angriff möglich ist, 2 bedeutet alle 2 Tage, etc."
+548200000006,Tägliche Chance auf einen Wildnis-Angriff (%)
+548200000007,Standard ist 10
+548200000008,Tage zwischen Wildnis-Angriffen (pro Region)

@@ -1,0 +1,9 @@
+id,text
+548200000001,Manada de hienas
+548200000002,Probabilidad diaria de ataque a un puesto de avanzada (%)
+548200000003,El valor predeterminado es 20
+548200000004,Días entre ataques (por puesto de avanzada)
+548200000005,"1 significa que es posible un ataque cada día, 2 significa cada 2 días, etc."
+548200000006,Probabilidad diaria de ataque en zona salvaje (%)
+548200000007,El valor predeterminado es 10
+548200000008,Días entre ataques en zona salvaje (por región)

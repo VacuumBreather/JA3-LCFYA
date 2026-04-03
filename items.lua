@@ -4,8 +4,8 @@ return {
 	}),
 	PlaceObj('ModItemOptionChoice', {
 		'name', "options_chance_lcfya",
-		'DisplayName', "Daily chance of outpost attack (%)",
-		'Help', "Default is 20",
+		'DisplayName', T(548200000002, "Daily chance of outpost attack (%)"),
+		'Help', T(548200000003, "Default is 20"),
 		'DefaultValue', "20",
 		'ChoiceList', {
 			"Off",
@@ -25,8 +25,8 @@ return {
 	}),
 	PlaceObj('ModItemOptionChoice', {
 		'name', "options_cooldown_lcfya",
-		'DisplayName', "Days between attacks (per outpost)",
-		'Help', "1 means an attack is possible every day, 2 means once every 2 days, etc.",
+		'DisplayName', T(548200000004, "Days between attacks (per outpost)"),
+		'Help', T(548200000005, "1 means an attack is possible every day, 2 means once every 2 days, etc."),
 		'DefaultValue', "1",
 		'ChoiceList', {
 			"1",
@@ -42,8 +42,8 @@ return {
 	}),
 	PlaceObj('ModItemOptionChoice', {
 		'name', "options_chance_wild_lcfya",
-		'DisplayName', "Daily chance of wilderness attack (%)",
-		'Help', "Default is 10",
+		'DisplayName', T(548200000006, "Daily chance of wilderness attack (%)"),
+		'Help', T(548200000007, "Default is 10"),
 		'DefaultValue', "10",
 		'ChoiceList', {
 			"Off",
@@ -63,8 +63,8 @@ return {
 	}),
 	PlaceObj('ModItemOptionChoice', {
 		'name', "options_cooldown_wild_lcfya",
-		'DisplayName', "Days between wilderness attacks (per region)",
-		'Help', "1 means an attack is possible every day, 2 means once every 2 days, etc.",
+		'DisplayName', T(548200000008, "Days between wilderness attacks (per region)"),
+		'Help', T(548200000005, "1 means an attack is possible every day, 2 means once every 2 days, etc."),
 		'DefaultValue', "2",
 		'ChoiceList', {
 			"1",
@@ -77,5 +77,44 @@ return {
 			"14",
 			"30",
 		},
+	}),
+	PlaceObj('ModItemLocTable', {
+		'filename', "Mod/cAPuUkg/Locls/English/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Spanish",
+		'filename', "Mod/cAPuUkg/Locls/Spanish/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "German",
+		'filename', "Mod/cAPuUkg/Locls/German/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "French",
+		'filename', "Mod/cAPuUkg/Locls/French/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Polish",
+		'filename', "Mod/cAPuUkg/Locls/Polish/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Brazilian",
+		'filename', "Mod/cAPuUkg/Locls/Brazilian Portuguese/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Indonesian",
+		'filename', "Mod/cAPuUkg/Locls/Indonesian/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Russian",
+		'filename', "Mod/cAPuUkg/Locls/Russian/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Schinese",
+		'filename', "Mod/cAPuUkg/Locls/Simplified Chinese/ModStrings.csv",
+	}),
+	PlaceObj('ModItemLocTable', {
+		'language', "Tchinese",
+		'filename', "Mod/cAPuUkg/Locls/Traditional Chinese/ModStrings.csv",
 	}),
 }
