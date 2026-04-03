@@ -227,7 +227,7 @@ local sector_quest_conditions = {
     ["D6"] = { AnyOf(IsNotGiven("NeverHitAGirl"), IsGroupDead("AbuserOutskirts_Main"), IsCompletedOrFailed("NeverHitAGirl")), },
     ["D9"] = { AnyOf(IsCompletedOrFailed("RefugeeBlues"), IsTrue("RefugeeBlues", "ClaudetteSaved"), IsTrue("RefugeeBlues", "ClaudetteDead")), },
 
-    -- Savannah South - "E4", "E5", "E6", "E7", "E8", "F5", "F6", "F8", "G6", "G7", "H6", "I7", "I8", "J8"
+    -- Savannah South
     ["E4"] = {},
     ["E5"] = {},
     ["E6"] = {
